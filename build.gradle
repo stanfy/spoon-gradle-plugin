@@ -1,0 +1,40 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.3'
+  }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'nexus'
+
+group = 'com.stanfy.spoon'
+version = '0.9'
+
+jar {
+  manifest {
+    attributes 'Implementation-Title' : 'Gradle plugin for Spoon',
+        'Implementation-Version': version,
+        'Built-By' : System.getProperty('user.name'),
+        'Built-Date' : new Date(),
+        'Built-JDK' : System.getProperty('java.version'),
+        'Built-Gradle' : gradle.gradleVersion
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile gradleApi()
+  compile localGroovy()
+
+  compile 'com.squareup.spoon:spoon-runner:1.0.5'
+
+  compile 'com.android.tools.build:gradle:0.5.+'
+
+  testCompile 'org.spockframework:spock-core:0.7-groovy-1.8'
+}
