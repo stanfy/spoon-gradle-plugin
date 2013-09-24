@@ -18,8 +18,10 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
 
   /** Plugin dependency name. */
   private static final String PLUGIN_DEP_NAME = "com.stanfy.spoon:spoon-gradle-plugin"
-  /** Plugin dependency name. */
-  private static final String SPOON_DEP_NAME = "com.squareup.spoon:spoon-runner"
+  /** Spoon runner artifact name. */
+  private static final String SPOON_RUNNER_ARTIFACT = "spoon-runner"
+  /** Spoon dependency name. */
+  private static final String SPOON_DEP_NAME = "com.squareup.spoon:$SPOON_RUNNER_ARTIFACT"
 
   /** Logger. */
   private static final Logger LOG = LoggerFactory.getLogger(SpoonRunTask.class)
@@ -68,19 +70,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       }
     }
 
-    def dep = null
-    def classpath = []
-    project.buildscript.configurations.each {
-      if (dep) { return }
-      dep = it.resolvedConfiguration.firstLevelModuleDependencies.find { it.name.startsWith SpoonRunTask.PLUGIN_DEP_NAME }
-      if (dep) {
-        def spoon = dep.children.find { it.name.startsWith SpoonRunTask.SPOON_DEP_NAME }
-        if (!spoon) { throw new IllegalStateException("Cannot find spoon-runner in dependencies") }
-        classpath = spoon.allModuleArtifacts.collect { it.file }
-      }
-    }
-    if (!dep) { throw new IllegalStateException("Could not resolve spoon dependencies") }
-    String cp = project.files(classpath).asPath
+    String cp = getClasspath()
     LOG.debug("Classpath: $cp")
 
     boolean success = new SpoonRunner.Builder()
@@ -98,8 +88,28 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       .run()
 
     if (!success && !ignoreFailures) {
-      throw new GradleException("Spoon returned non-zero exit code.")
+      throw new GradleException("Tests failed!")
     }
+  }
+
+  private String getClasspath() {
+    def pluginDep = null
+    def classpath = []
+    project.buildscript.configurations.each {
+      if (pluginDep) { return }
+
+      pluginDep = it.resolvedConfiguration.firstLevelModuleDependencies.find { it.name.startsWith SpoonRunTask.PLUGIN_DEP_NAME }
+      if (pluginDep) {
+        def spoon = pluginDep.children.find { it.name.startsWith SpoonRunTask.SPOON_DEP_NAME }
+        if (!spoon) { throw new IllegalStateException("Cannot find spoon-runner in dependencies") }
+        classpath = spoon.allModuleArtifacts.collect { it.file }
+        classpath += pluginDep.allModuleArtifacts.find { it.name == SpoonRunTask.SPOON_RUNNER_ARTIFACT }.file
+      }
+
+    }
+
+    if (!pluginDep) { throw new IllegalStateException("Could not resolve spoon dependencies") }
+    return project.files(classpath).asPath
   }
 
 }

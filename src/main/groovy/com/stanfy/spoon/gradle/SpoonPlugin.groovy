@@ -22,6 +22,8 @@ class SpoonPlugin implements Plugin<Project> {
       throw new IllegalStateException("Android plugin is not found")
     }
 
+    project.extensions.add "spoon", SpoonExtension
+
     AppExtension android = project.android
     android.testVariants.all { TestVariant variant ->
 
@@ -30,11 +32,10 @@ class SpoonPlugin implements Plugin<Project> {
       SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
       task.applicationApk = variant.testedVariant.outputFile
       task.instrumentationApk = variant.outputFile
-      task.title = project.name
+      task.title = "$project.name $variant.name"
       task.output = new File(project.buildDir, "spoon/${variant.name}")
-      task.debug = project.logging.level == LogLevel.INFO
-      task.dependsOn variant.assemble
-
+      task.debug = project.spoon.debug
+      task.dependsOn variant.assemble, variant.testedVariant.assemble
     }
 
   }
