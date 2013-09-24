@@ -88,7 +88,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       .run()
 
     if (!success && !ignoreFailures) {
-      throw new GradleException("Tests failed!")
+      throw new GradleException("Tests failed! See ${output}/index.html")
     }
   }
 

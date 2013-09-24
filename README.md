@@ -36,6 +36,15 @@ gradle spoon
 
 Generated reports are available at `build/spoon/${TEST_VARIANT}` folder.
 
+For making screenshots add `spoon-client` dependency to your tests compile configuration:
+```groovy
+dependencies {
+
+  instrumentTestCompile 'com.squareup.spoon:spoon-client:1.0.5'
+
+}
+```
+
 License
 -------
 
