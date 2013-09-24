@@ -38,3 +38,34 @@ dependencies {
 
   testCompile 'org.spockframework:spock-core:0.7-groovy-1.8'
 }
+
+modifyPom {
+  project {
+    name 'Spoon Gradle Plugin'
+    description 'Gradle plugin for Spoon'
+    url 'https://github.com/stanfy/spoon-gradle-plugin'
+    inceptionYear '2013'
+
+    scm {
+      url 'https://github.com/stanfy/spoon-gradle-plugin'
+      connection 'scm:git:git@github.com:stanfy/spoon-gradle-plugin.git'
+      developerConnection 'scm:git:git@github.com:stanfy/spoon-gradle-plugin.git'
+    }
+
+    licenses {
+      license {
+        name 'The Apache Software License, Version 2.0'
+        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+        distribution 'repo'
+      }
+    }
+
+    developers {
+      developer {
+        id 'rmazur'
+        name 'Roman Mazur'
+        email 'rmazur@stanfy.com.ua'
+      }
+    }
+  }
+}
