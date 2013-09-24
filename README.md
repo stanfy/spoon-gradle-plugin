@@ -4,7 +4,7 @@ Spoon Gradle Plugin
 Gradle plugin for [Spoon](https://github.com/square/spoon).
 Allows you to run spoon with almost no effort under new Android build system.
 
-Plugin generates `spoon${TestVariantName}` tasks for every test variation in your application project.
+Plugin generates `spoon${TEST_VARIANT}` tasks for every test variation in your application project.
 
 Usage
 -----
@@ -33,6 +33,8 @@ For default build configuration tests may be run like
 ```
 gradle spoon
 ```
+
+Generated reports are available at `build/spoon/${TEST_VARIANT}` folder.
 
 License
 -------
