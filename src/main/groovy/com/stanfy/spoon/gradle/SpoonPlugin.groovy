@@ -6,6 +6,8 @@ import com.android.build.gradle.api.TestVariant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
+import org.gradle.api.plugins.BasePlugin
+import org.gradle.api.plugins.JavaBasePlugin
 
 /**
  * Gradle plugin for Spoon.
@@ -30,6 +32,8 @@ class SpoonPlugin implements Plugin<Project> {
       String taskName = "${TASK_PREFIX}${variant.name}"
 
       SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
+      task.group = JavaBasePlugin.VERIFICATION_GROUP
+      task.description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
       task.applicationApk = variant.testedVariant.outputFile
       task.instrumentationApk = variant.outputFile
       task.title = "$project.name $variant.name"
