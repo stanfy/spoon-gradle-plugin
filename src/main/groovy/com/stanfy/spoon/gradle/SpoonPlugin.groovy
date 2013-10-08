@@ -26,20 +26,31 @@ class SpoonPlugin implements Plugin<Project> {
 
     project.extensions.add "spoon", SpoonExtension
 
+    def spoonTask = project.task("spoon") {
+      group = JavaBasePlugin.VERIFICATION_GROUP
+      description = "Runs all the instrumentation test variations on all the connected devices"
+    }
+
     AppExtension android = project.android
     android.testVariants.all { TestVariant variant ->
 
       String taskName = "${TASK_PREFIX}${variant.name}"
 
       SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
-      task.group = JavaBasePlugin.VERIFICATION_GROUP
-      task.description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
-      task.applicationApk = variant.testedVariant.outputFile
-      task.instrumentationApk = variant.outputFile
-      task.title = "$project.name $variant.name"
-      task.output = new File(project.buildDir, "spoon/${variant.name}")
-      task.debug = project.spoon.debug
-      task.dependsOn variant.assemble, variant.testedVariant.assemble
+      task.configure {
+        group = JavaBasePlugin.VERIFICATION_GROUP
+        description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
+        applicationApk = variant.testedVariant.outputFile
+        instrumentationApk = variant.outputFile
+        title = "$project.name $variant.name"
+        output = new File(project.buildDir, "spoon/${variant.name}")
+        debug = project.spoon.debug
+        ignoreFailures = project.spoon.ignoreFailures
+
+        dependsOn variant.assemble, variant.testedVariant.assemble
+      }
+
+      spoonTask.dependsOn task
     }
 
   }

@@ -8,4 +8,7 @@ class SpoonExtension {
   /** Debug logging flag. */
   boolean debug
 
+  /** Ignore test failures flag. */
+  boolean ignoreFailures
+
 }

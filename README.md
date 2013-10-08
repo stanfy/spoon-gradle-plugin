@@ -29,7 +29,7 @@ spoon {
 
 After applying the plugin you'll find `spoon${TEST_VARIANT}` tasks in your project.
 
-For default build configuration tests may be run like
+You may run all the test variations with
 ```
 gradle spoon
 ```
