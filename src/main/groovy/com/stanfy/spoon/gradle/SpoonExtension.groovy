@@ -11,4 +11,9 @@ class SpoonExtension {
   /** Ignore test failures flag. */
   boolean ignoreFailures
 
+  /** Fully qualified name of the test class to be run (e.g. com.example.foo.test.MyTestCase). */
+  String className
+
+  /** Test method to be run. Used when `className` is provided. */
+  String methodName
 }

@@ -24,6 +24,28 @@ apply plugin: 'spoon'
 // for debug output
 spoon {
   debug = true
+
+  // To run a single test class
+  className = fully.qualified.TestCase
+
+  // To run a single method in TestCase
+  methodName = testMyApp
+}
+```
+
+You may also setup your project to take parameters for class/method to be run from command line. E.g.:
+
+```
+gradle spoon -PspoonClassName=fully.qualified.TestCase
+```
+
+And project configuration:
+
+```groovy
+spoon {
+  if (project.hasProperty('spoonClassName')) {
+    className = project.spoonClassName  
+  }
 }
 ```
 
