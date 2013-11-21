@@ -8,6 +8,9 @@ class SpoonExtension {
   /** Debug logging flag. */
   boolean debug
 
+  /** Fail if no device is connected flag. */
+  boolean failIfNoDeviceConnected
+
   /** Ignore test failures flag. */
   boolean ignoreFailures
 
@@ -20,6 +23,10 @@ class SpoonExtension {
   /** Devices to run the tests on (specified with serial numbers). */
   Set<String> devices
 
+  /** If set, will run only tests annotated with size marker (@SmallTest, @MediumTest, @LargeTest).
+      Must be one of: "small", "medium", "large". */ 
+  String testSize
+  
   /** Whether or not animations are enabled, useful for slow machines or projects with many screenshots */
   boolean noAnimations
 
