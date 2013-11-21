@@ -57,11 +57,16 @@ class SpoonPlugin implements Plugin<Project> {
         allDevices = !config.devices
         noAnimations = config.noAnimations
 
+        failIfNoDeviceConnected = project.spoon.failIfNoDeviceConnected
         if (project.spoon.className) {
           className = project.spoon.className
           if (project.spoon.methodName) {
             methodName = project.spoon.methodName
           }          
+        }
+
+        if (project.spoon.testSize) {
+          testSize = project.spoon.testSize
         }
 
         dependsOn variant.assemble, variant.testedVariant.assemble
