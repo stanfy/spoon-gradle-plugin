@@ -47,6 +47,13 @@ class SpoonPlugin implements Plugin<Project> {
         debug = project.spoon.debug
         ignoreFailures = project.spoon.ignoreFailures
 
+        if (project.spoon.className) {
+          className = project.spoon.className
+          if (project.spoon.methodName) {
+            methodName = project.spoon.methodName
+          }          
+        }
+
         dependsOn variant.assemble, variant.testedVariant.assemble
       }
 
