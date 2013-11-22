@@ -26,10 +26,10 @@ spoon {
   debug = true
 
   // To run a single test class
-  className = fully.qualified.TestCase
+  className = 'fully.qualified.TestCase'
 
   // To run a single method in TestCase
-  methodName = testMyApp
+  methodName = 'testMyApp'
 }
 ```
 
