@@ -30,14 +30,13 @@ jar {
 
 repositories {
   mavenCentral()
-  mavenLocal() // TODO: remove after spoon next release
 }
 
 dependencies {
   compile gradleApi()
   compile localGroovy()
 
-  compile 'com.squareup.spoon:spoon-runner:1.0.6-SNAPSHOT'
+  compile 'com.squareup.spoon:spoon-runner:1.1.0'
 
   compile 'com.android.tools.build:gradle:0.5.+'
 
