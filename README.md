@@ -21,8 +21,9 @@ buildscript {
 
 apply plugin: 'spoon'
 
-// for debug output
+// This section is optional
 spoon {
+  // for debug output
   debug = true
 
   // To run a single test class
@@ -64,6 +65,14 @@ dependencies {
 
   instrumentTestCompile 'com.squareup.spoon:spoon-client:1.0.5'
 
+}
+```
+
+By default the plugin runs tests on all the connected devices.
+In order to run them on some concrete devices instead, you may specify their serial numbers:
+```
+spoon {
+  devices = ['333236E9AE5800EC']
 }
 ```
 

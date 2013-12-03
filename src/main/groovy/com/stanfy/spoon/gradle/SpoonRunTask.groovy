@@ -53,6 +53,12 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   @OutputDirectory
   File output
 
+  /** Use all the connected devices flag. */
+  boolean allDevices
+
+  /** Devices to run on. */
+  Set<String> devices
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -73,19 +79,31 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     String cp = getClasspath()
     LOG.debug("Classpath: $cp")
 
-    boolean success = new SpoonRunner.Builder()
-      .setTitle(title)
-      .setApplicationApk(applicationApk)
-      .setInstrumentationApk(instrumentationApk)
-      .setOutputDirectory(output)
-      .setDebug(debug)
-      .setClassName(className)
-      .setMethodName(methodName)
-      .setAndroidSdk(project.plugins.findPlugin(AppPlugin).sdkDirectory)
-      .setClasspath(cp)
-      .useAllAttachedDevices()
-      .build()
-      .run()
+    SpoonRunner.Builder runBuilder = new SpoonRunner.Builder()
+        .setTitle(title)
+        .setApplicationApk(applicationApk)
+        .setInstrumentationApk(instrumentationApk)
+        .setOutputDirectory(output)
+        .setDebug(debug)
+        .setClassName(className)
+        .setMethodName(methodName)
+        .setAndroidSdk(project.plugins.findPlugin(AppPlugin).sdkDirectory)
+        .setClasspath(cp)
+
+    if (allDevices) {
+      runBuilder.useAllAttachedDevices()
+      LOG.info("Using all the attached devices")
+    } else {
+      if (!devices) {
+        throw new GradleException("No devices specified to run the tests on");
+      }
+      devices.each {
+        runBuilder.addDevice(it)
+      }
+      LOG.info("Using devices $devices")
+    }
+
+    boolean success = runBuilder.build().run()
 
     if (!success && !ignoreFailures) {
       throw new GradleException("Tests failed! See ${output}/index.html")

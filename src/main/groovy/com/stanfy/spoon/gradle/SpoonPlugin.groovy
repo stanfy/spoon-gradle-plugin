@@ -37,6 +37,7 @@ class SpoonPlugin implements Plugin<Project> {
       String taskName = "${TASK_PREFIX}${variant.name}"
 
       SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
+      SpoonExtension config = project.spoon
       task.configure {
         group = JavaBasePlugin.VERIFICATION_GROUP
         description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
@@ -44,8 +45,11 @@ class SpoonPlugin implements Plugin<Project> {
         instrumentationApk = variant.outputFile
         title = "$project.name $variant.name"
         output = new File(project.buildDir, "spoon/${variant.name}")
-        debug = project.spoon.debug
-        ignoreFailures = project.spoon.ignoreFailures
+
+        debug = config.debug
+        ignoreFailures = config.ignoreFailures
+        devices = config.devices
+        allDevices = !config.devices
 
         if (project.spoon.className) {
           className = project.spoon.className
