@@ -63,7 +63,7 @@ For making screenshots add `spoon-client` dependency to your tests compile confi
 ```groovy
 dependencies {
 
-  instrumentTestCompile 'com.squareup.spoon:spoon-client:1.0.5'
+  instrumentTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
 
 }
 ```
