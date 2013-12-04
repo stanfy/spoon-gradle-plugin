@@ -1,0 +1,16 @@
+language: java
+
+env:
+  global:
+    - secure: "VgzgkHpv8GQtVighZP+Fnkeaj08Abk8c+HJePEkO+0c1aoeL0Lwt6yUwXrMlPhgBndLi9foDZV1PH1xVxLlnj5u5GA8hNoNY4cOxjvEpD3E9MQ0gsdKmclMsoodJpY6YQ67FMexW6IVOHxkHcbEFm7ylcobmhyyX+MHujir980s="
+    - secure: "GdbZFkBJYt7nuAg8VJytyFFwW/HPpH/kcXXtdjH7Dw5dF/rw1QlBkMCrzVPYv1QgaBW6eprdWQ1OeSi8A4puK/jMGyAxcLVjmop1167MUQjt1C9HuY1HjMiwCrTpbdHchPSQd37cg++sbJ9AXaKdfRxLZ/knMKLtcH/p8d8DHWQ="
+
+install:
+  - TERM=dumb ./gradlew -q assembleRelease
+
+script:
+  - TERM=dumb ./gradlew check
+
+after_success:
+  - chmod +x scripts/deploy_to_maven.sh
+  - ./scripts/deploy_to_maven.sh
