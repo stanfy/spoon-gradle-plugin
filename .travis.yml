@@ -6,7 +6,7 @@ env:
     - secure: "GdbZFkBJYt7nuAg8VJytyFFwW/HPpH/kcXXtdjH7Dw5dF/rw1QlBkMCrzVPYv1QgaBW6eprdWQ1OeSi8A4puK/jMGyAxcLVjmop1167MUQjt1C9HuY1HjMiwCrTpbdHchPSQd37cg++sbJ9AXaKdfRxLZ/knMKLtcH/p8d8DHWQ="
 
 install:
-  - TERM=dumb ./gradlew -q assembleRelease
+  - TERM=dumb ./gradlew -q assemble
 
 script:
   - TERM=dumb ./gradlew check
