@@ -34,7 +34,7 @@ class SpoonPlugin implements Plugin<Project> {
     AppExtension android = project.android
     android.testVariants.all { TestVariant variant ->
 
-      String taskName = "${TASK_PREFIX}${variant.name}"
+      String taskName = "${TASK_PREFIX}${variant.name.capitalize()}"
 
       SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
       SpoonExtension config = project.spoon
