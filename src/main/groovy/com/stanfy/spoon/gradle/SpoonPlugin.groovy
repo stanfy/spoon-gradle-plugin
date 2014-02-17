@@ -20,7 +20,7 @@ class SpoonPlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
 
-    if (!project.plugins.hasPlugin(AppPlugin)) {
+    if (!project.plugins.withType(AppPlugin)) {
       throw new IllegalStateException("Android plugin is not found")
     }
 
