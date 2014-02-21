@@ -50,6 +50,7 @@ class SpoonPlugin implements Plugin<Project> {
         ignoreFailures = config.ignoreFailures
         devices = config.devices
         allDevices = !config.devices
+        noAnimations = config.noAnimations
 
         if (project.spoon.className) {
           className = project.spoon.className
