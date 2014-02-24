@@ -5,7 +5,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.8.1'
+    classpath 'com.android.tools.build:gradle:0.8.3'
     classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.9.4-SNAPSHOT'
   }
 }

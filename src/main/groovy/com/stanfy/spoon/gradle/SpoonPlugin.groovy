@@ -44,13 +44,13 @@ class SpoonPlugin implements Plugin<Project> {
         applicationApk = variant.testedVariant.outputFile
         instrumentationApk = variant.outputFile
         title = "$project.name $variant.name"
-        
-        if (config.baseOutputDir) {
-           output = new File(config.baseOutputDir, variant.dirName)
-        } else {
-           output = new File(project.buildDir, "spoon/${variant.name}")
+
+        File outputBase = config.baseOutputDir
+        if (!outputBase) {
+          outputBase = new File(project.buildDir, "spoon")
         }
-       
+        output = new File(outputBase, variant.testedVariant.dirName)
+
         debug = config.debug
         ignoreFailures = config.ignoreFailures
         devices = config.devices
