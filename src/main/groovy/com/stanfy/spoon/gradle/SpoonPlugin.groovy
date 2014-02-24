@@ -45,9 +45,9 @@ class SpoonPlugin implements Plugin<Project> {
         instrumentationApk = variant.outputFile
         title = "$project.name $variant.name"
         
-        if(config.outputDir){
-          output = new File(config.outputDir)
-        }else{
+        if (config.baseOutputDir) {
+           output = new File(config.baseOutputDir, variant.dirName)
+        } else {
            output = new File(project.buildDir, "spoon/${variant.name}")
         }
        
