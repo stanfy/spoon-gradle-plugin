@@ -11,7 +11,7 @@ apply plugin: 'groovy'
 apply plugin: 'nexus'
 
 group = 'com.stanfy.spoon'
-version = '0.9.4-SNAPSHOT'
+version = '0.9.4'
 
 task wrapper(type: Wrapper) {
   gradleVersion = '1.8'
