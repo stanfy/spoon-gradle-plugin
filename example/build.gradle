@@ -1,7 +1,7 @@
 buildscript {
   repositories {
     mavenCentral()
-//    mavenLocal()
+    mavenLocal()
   }
 
   dependencies {
@@ -41,7 +41,7 @@ android {
 
 spoon {
   debug = true
-
+  baseOutputDir = file("$buildDir/custom-report-dir")
 }
 
 repositories {

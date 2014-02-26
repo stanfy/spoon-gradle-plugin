@@ -21,9 +21,9 @@ class SpoonExtension {
   Set<String> devices
 
   /** Whether or not animations are enabled, useful for slow machines or projects with many screenshots */
-  boolean  noAnimations
+  boolean noAnimations
 
   /** Output directory for the spoon report files. If empty, the default dir will be used */
-  String baseOutputDir
+  File baseOutputDir
 
 }
