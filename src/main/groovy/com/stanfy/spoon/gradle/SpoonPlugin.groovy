@@ -20,7 +20,7 @@ class SpoonPlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
 
-    if (!project.plugins.hasPlugin(AppPlugin)) {
+    if (!project.plugins.withType(AppPlugin)) {
       throw new IllegalStateException("Android plugin is not found")
     }
 
@@ -44,12 +44,18 @@ class SpoonPlugin implements Plugin<Project> {
         applicationApk = variant.testedVariant.outputFile
         instrumentationApk = variant.outputFile
         title = "$project.name $variant.name"
-        output = new File(project.buildDir, "spoon/${variant.name}")
+
+        File outputBase = config.baseOutputDir
+        if (!outputBase) {
+          outputBase = new File(project.buildDir, "spoon")
+        }
+        output = new File(outputBase, variant.testedVariant.dirName)
 
         debug = config.debug
         ignoreFailures = config.ignoreFailures
         devices = config.devices
         allDevices = !config.devices
+        noAnimations = config.noAnimations
 
         if (project.spoon.className) {
           className = project.spoon.className

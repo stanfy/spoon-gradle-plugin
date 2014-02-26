@@ -41,6 +41,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Name of the one test method to run. */
   String methodName
 
+  /** Whether or not animations are enabled */
+  boolean noAnimations
+
   /** Instrumentation APK. */
   @InputFile
   File instrumentationApk
@@ -76,6 +79,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       }
     }
 
+    LOG.debug("No animations: $noAnimations")
+
     String cp = getClasspath()
     LOG.debug("Classpath: $cp")
 
@@ -87,8 +92,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setDebug(debug)
         .setClassName(className)
         .setMethodName(methodName)
-        .setAndroidSdk(project.plugins.findPlugin(AppPlugin).sdkDirectory)
+        .setAndroidSdk(project.plugins.withType(AppPlugin).toList().get(0).sdkDirectory)
         .setClasspath(cp)
+        .setNoAnimations(noAnimations)
 
     if (allDevices) {
       runBuilder.useAllAttachedDevices()
