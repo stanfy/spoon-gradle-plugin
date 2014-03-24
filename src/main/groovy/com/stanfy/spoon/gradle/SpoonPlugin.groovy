@@ -64,6 +64,12 @@ class SpoonPlugin implements Plugin<Project> {
           }          
         }
 
+        if (project.spoon.testSize) {
+            testSize = project.spoon.testSize
+        } else {
+            testSize = "all"
+        }
+
         dependsOn variant.assemble, variant.testedVariant.assemble
       }
 
