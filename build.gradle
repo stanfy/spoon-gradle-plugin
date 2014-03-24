@@ -11,7 +11,7 @@ apply plugin: 'groovy'
 apply plugin: 'nexus'
 
 group = 'com.stanfy.spoon'
-version = '0.9.6-SNAPSHOT'
+version = '0.9.7-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
   gradleVersion = '1.8'
@@ -47,13 +47,13 @@ modifyPom {
   project {
     name 'Spoon Gradle Plugin'
     description 'Gradle plugin for Spoon'
-    url 'https://github.com/stanfy/spoon-gradle-plugin'
+    url 'https://github.com/denyszelenchuk/spoon-gradle-plugin'
     inceptionYear '2013'
 
     scm {
       url 'https://github.com/stanfy/spoon-gradle-plugin'
-      connection 'scm:git:git@github.com:stanfy/spoon-gradle-plugin.git'
-      developerConnection 'scm:git:git@github.com:stanfy/spoon-gradle-plugin.git'
+      connection 'scm:git:git@github.com:denyszelenchuk/spoon-gradle-plugin.git'
+      developerConnection 'scm:git:git@github.com:denyszelenchuk/spoon-gradle-plugin.git'
     }
 
     licenses {
