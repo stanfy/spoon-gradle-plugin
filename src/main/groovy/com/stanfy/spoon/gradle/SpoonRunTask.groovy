@@ -62,6 +62,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Devices to run on. */
   Set<String> devices
 
+  String testSize
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -95,6 +97,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setAndroidSdk(project.plugins.withType(AppPlugin).toList().get(0).sdkDirectory)
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
+        .setTestSize(testSize)
 
     if (allDevices) {
       runBuilder.useAllAttachedDevices()
