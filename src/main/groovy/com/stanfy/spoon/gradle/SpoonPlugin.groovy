@@ -12,7 +12,7 @@ import org.gradle.api.plugins.JavaBasePlugin
 /**
  * Gradle plugin for Spoon.
  */
-class SpoonPluginD implements Plugin<Project> {
+class SpoonPlugin implements Plugin<Project> {
 
   /** Task name prefix. */
   private static final String TASK_PREFIX = "spoon"

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
 class SpoonRunTask extends DefaultTask implements VerificationTask {
 
   /** Plugin dependency name. */
-  private static final String PLUGIN_DEP_NAME = "com.stanfy.spoon:spoon-gradle-plugin"
+  private static final String PLUGIN_DEP_NAME = "com.stanfy.spoon:spoon-gradle-plugin-denyszelenchuk"
   /** Spoon runner artifact name. */
   private static final String SPOON_RUNNER_ARTIFACT = "spoon-runner"
   /** Spoon dependency name. */
