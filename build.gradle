@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'nexus'
 
-group = 'com.stanfy.spoon'
+group = 'com.stanfy.spoon.d'
 version = '0.9.10d'
 
 task wrapper(type: Wrapper) {
