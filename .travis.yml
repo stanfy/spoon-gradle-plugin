@@ -1,15 +1,1 @@
-language: java
-
-env:
-  global:
-    - secure: "lPttF+AikE2/Rtw5CO49XMMD2cLEdOUnswmtMX5rIg4Ot8XZ3zx0tDan/8bvAENZZh2xLbD2e+sHrCCSVpmyH+nHBRu5fMzUZww30gV8GDgwWJqKmQT/TUUdrpPFEYDfEFhy0WtDnw7LO/DwB3MjQVMrp9huzm8UYBGwSIiQ6GI="
-    - secure: "Z4LXYWoxV2ZAL3onkc5YIWUo1z8ftVSS6nvfEpc6pBWam5HbTM7XVwzbyr0d9edT/1H+/rVyyZQJ9j1JZjpvX9WA+0RVMTgYU2aVdV/EyaQesNYDZfBr5CUteEj3GFxEIzy0wgWgPfbUb44K577LyB6ra9TdZUdEngCTbXCUmwo="
-
-install:
-  - TERM=dumb ./gradlew -q assemble
-
-script:
-  - TERM=dumb ./gradlew check
-
-after_success:
-  - ./scripts/deploy_to_maven.sh
+language: javaenv:  global:    - secure: "lPttF+AikE2/Rtw5CO49XMMD2cLEdOUnswmtMX5rIg4Ot8XZ3zx0tDan/8bvAENZZh2xLbD2e+sHrCCSVpmyH+nHBRu5fMzUZww30gV8GDgwWJqKmQT/TUUdrpPFEYDfEFhy0WtDnw7LO/DwB3MjQVMrp9huzm8UYBGwSIiQ6GI="    - secure: "Z4LXYWoxV2ZAL3onkc5YIWUo1z8ftVSS6nvfEpc6pBWam5HbTM7XVwzbyr0d9edT/1H+/rVyyZQJ9j1JZjpvX9WA+0RVMTgYU2aVdV/EyaQesNYDZfBr5CUteEj3GFxEIzy0wgWgPfbUb44K577LyB6ra9TdZUdEngCTbXCUmwo="install:  - TERM=dumb ./gradlew -q assemblescript:  - TERM=dumb ./gradlew checkafter_success:  - ./scripts/deploy_to_maven.sh

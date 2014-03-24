@@ -1,12 +1,1 @@
-# IDEA
-out
-classes
-.idea
-*.iml
-
-# Gradle
-build
-.gradle
-
-# Other
-.DS_Store
+# IDEAoutclasses.idea*.iml# Gradlebuild.gradle# Other.DS_Store

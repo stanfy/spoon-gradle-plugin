@@ -1,5 +1,1 @@
-<resources>
-
-  <string name="app_name">Spoon Gradle Example</string>
-
-</resources>
+<resources>  <string name="app_name">Spoon Gradle Example</string></resources>
