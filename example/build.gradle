@@ -1,1 +1,53 @@
-buildscript {  repositories {    mavenCentral()    mavenLocal()  }  dependencies {    classpath 'com.android.tools.build:gradle:0.8.3'    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.9.6-SNAPSHOT'  }}apply plugin: 'android'apply plugin: 'spoon'android {  compileSdkVersion 19  buildToolsVersion "19.0.2"  defaultConfig {    minSdkVersion 7    targetSdkVersion 19    versionCode 1    versionName '1.0'    testPackageName "com.stanfy.spoon.example.test"    testInstrumentationRunner "android.test.InstrumentationTestRunner"  }  productFlavors {    free {    }    pro {    }  }}spoon {  debug = true  baseOutputDir = file("$buildDir/custom-report-dir")}repositories {  mavenCentral()}dependencies {  instrumentTestCompile "com.squareup.spoon:spoon-client:1.1.0"}
+buildscript {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.8.3'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.9.6-SNAPSHOT'
+  }
+}
+
+apply plugin: 'android'
+apply plugin: 'spoon'
+
+android {
+  compileSdkVersion 19
+  buildToolsVersion "19.0.2"
+
+  defaultConfig {
+    minSdkVersion 7
+    targetSdkVersion 19
+
+    versionCode 1
+    versionName '1.0'
+
+    testPackageName "com.stanfy.spoon.example.test"
+    testInstrumentationRunner "android.test.InstrumentationTestRunner"
+  }
+
+  productFlavors {
+    free {
+
+    }
+    pro {
+
+    }
+  }
+
+}
+
+spoon {
+  debug = true
+  baseOutputDir = file("$buildDir/custom-report-dir")
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  instrumentTestCompile "com.squareup.spoon:spoon-client:1.1.0"
+}
