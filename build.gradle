@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'groovy'
 apply plugin: 'nexus'
 
-group = 'com.stanfy.spoon.denyszelenchuk'
+group = 'com.stanfy.spoon'
 version = '0.9.6-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
@@ -45,7 +45,7 @@ dependencies {
 
 modifyPom {
   project {
-    name 'Spoon Gradle Plugin'
+    name 'Spoon Gradle Plugin denyszelenchuk'
     description 'Gradle plugin for Spoon'
     url 'https://github.com/stanfy/spoon-gradle-plugin'
     inceptionYear '2013'
