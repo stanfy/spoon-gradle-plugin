@@ -62,6 +62,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Devices to run on. */
   Set<String> devices
 
+  /** Test size to run. */
   String testSize
 
   @TaskAction
