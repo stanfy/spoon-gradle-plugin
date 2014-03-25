@@ -45,15 +45,15 @@ dependencies {
 
 modifyPom {
   project {
-    name 'Spoon Gradle Plugin denyszelenchuk'
+    name 'Spoon Gradle Plugin'
     description 'Gradle plugin for Spoon'
-    url 'https://github.com/denyszelenchuk/spoon-gradle-plugin'
+    url 'https://github.com/stanfy/spoon-gradle-plugin'
     inceptionYear '2013'
 
     scm {
-      url 'https://github.com/denyszelenchuk/spoon-gradle-plugin'
-      connection 'scm:git:git@github.com:denyszelenchuk/spoon-gradle-plugin.git'
-      developerConnection 'scm:git:git@github.com:denyszelenchuk/spoon-gradle-plugin.git'
+      url 'https://github.com/stanfy/spoon-gradle-plugin'
+      connection 'scm:git:git@github.com:stanfy/spoon-gradle-plugin.git'
+      developerConnection 'scm:git:git@github.com:stanfy/spoon-gradle-plugin.git'
     }
 
     licenses {
