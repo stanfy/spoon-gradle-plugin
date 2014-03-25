@@ -66,11 +66,8 @@ class SpoonPlugin implements Plugin<Project> {
 
         /** If command line command contains testSize parameter then it is used
          * to decide what kind of test set to run based on it's size - small, medium or large */
-
-        String testSizeParameter = project.spoon.testSize
-        if (testSizeParameter){
-          testSizeParameter = testSizeParameter.toLowerCase()
-          testSize = testSizeParameter
+        if (project.spoon.testSize) {
+          testSize = project.spoon.testSize.toLowerCase()
         } else {
           testSize = "all"
         }
