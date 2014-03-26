@@ -1,6 +1,7 @@
 package com.stanfy.spoon.gradle
 
 import com.android.build.gradle.AppPlugin
+import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
@@ -32,6 +33,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** If true then test failures do not cause a build failure. */
   boolean ignoreFailures
 
+  /** If true, tests will fail if no devices are connected. */
+  boolean failIfNoDeviceConnected
+
   /** Debug logging switcher. */
   boolean debug
 
@@ -43,6 +47,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
 
   /** Whether or not animations are enabled */
   boolean noAnimations
+  
+  /** Size of test to be run ('small' / 'medium' / 'large'). */
+  String testSize
 
   /** Instrumentation APK. */
   @InputFile
@@ -70,6 +77,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     LOG.debug("Output: $output")
 
     LOG.debug("Ignore failures: $ignoreFailures")
+    LOG.debug("Fail if no device connected: $failIfNoDeviceConnected")
     LOG.debug("Debug mode: $debug")
 
     if (className) {
@@ -81,14 +89,19 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
 
     LOG.debug("No animations: $noAnimations")
 
+    if (testSize) {
+      LOG.debug("Test size: $testSize")       
+    }
+
     String cp = getClasspath()
     LOG.debug("Classpath: $cp")
 
-    SpoonRunner.Builder runBuilder = new SpoonRunner.Builder()
+    SpoonRunner.Builder runBuilder = new SpoonRunner.Builder()    
         .setTitle(title)
         .setApplicationApk(applicationApk)
         .setInstrumentationApk(instrumentationApk)
         .setOutputDirectory(output)
+        .setFailIfNoDeviceConnected(failIfNoDeviceConnected)
         .setDebug(debug)
         .setClassName(className)
         .setMethodName(methodName)
@@ -96,6 +109,11 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
 
+    if(testSize) {
+      // Will throw exception with informative message if provided size is illegal
+      runBuilder.setTestSize(IRemoteAndroidTestRunner.TestSize.getTestSize(testSize))
+    }    
+        
     if (allDevices) {
       runBuilder.useAllAttachedDevices()
       LOG.info("Using all the attached devices")
