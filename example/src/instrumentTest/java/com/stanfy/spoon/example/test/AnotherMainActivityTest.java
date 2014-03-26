@@ -13,10 +13,10 @@ import com.stanfy.spoon.example.MainActivity;
 /**
  * Tests for MainActivity.
  */
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class AnotherMainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 
-  public MainActivityTest() {
+  public AnotherMainActivityTest() {
     super(MainActivity.class);
   }
 
@@ -34,25 +34,5 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
       Spoon.screenshot(act, "step-" + i);
       assertEquals(text.getText().toString(), step);
     }
-
   }
-
-  @SmallTest
-  public void testSmallTest() throws Throwable {
-    final MainActivity act = getActivity();
-    Spoon.screenshot(act, "startup-smallTest");
-  }
-
-  @MediumTest
-  public void testMediumTest() throws Throwable {
-    final MainActivity act = getActivity();
-    Spoon.screenshot(act, "startup-smallTest");
-  }
-
-  @LargeTest
-  public void testLargeTest() throws Throwable {
-    final MainActivity act = getActivity();
-    Spoon.screenshot(act, "startup-largeTest");
-  }
-
 }

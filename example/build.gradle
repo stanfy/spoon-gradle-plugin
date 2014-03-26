@@ -15,7 +15,7 @@ apply plugin: 'spoon'
 
 android {
   compileSdkVersion 19
-  buildToolsVersion "19.0.2"
+  buildToolsVersion "19.0.3"
 
   defaultConfig {
     minSdkVersion 7
@@ -42,6 +42,38 @@ android {
 spoon {
   debug = true
   baseOutputDir = file("$buildDir/custom-report-dir")
+
+  // Property names here are completely arbitrary.
+  // Idea is to pass parameters from command line
+  // via project or Java system parameters and
+  // then configure Spoon task(s)
+  //
+  // Command line examples:
+  //
+  // 1. Run all tests (5 in total)
+  // $> ../gradlew spoonFreeDebugTest
+  // 
+  // 2. Run only tests in `MainActivityTest` (4 in total)
+  // $> ../gradlew spoonFreeDebugTest -PspoonClassName=com.stanfy.spoon.example.test.MainActivityTest
+  // 
+  // 3. Run only `MainActivityTest#testSetText()` (1 in total)
+  // $> ../gradlew spoonFreeDebugTest -PspoonClassName=com.stanfy.spoon.example.test.MainActivityTest -PspoonMethodName=testSetText
+  // 
+  // 4. Run only small tests (annotated with @SmallTest) (1 in total)
+  // It is often useful to have kind of Smoke tests - ones that run fast 
+  // and let to identify problems early
+  // $> ../gradlew spoonFreeDebugTest -PspoonTestSize=small
+  if (project.hasProperty('spoonClassName')) {
+    className = project.spoonClassName
+
+    if (project.hasProperty('spoonMethodName')) {
+      methodName = project.spoonMethodName
+    }
+  }
+
+  if (project.hasProperty('spoonTestSize')) {
+    testSize = project.spoonTestSize
+  }
 }
 
 repositories {
