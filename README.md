@@ -33,13 +33,17 @@ spoon {
 
   // To run a single method in TestCase
   methodName = 'testMyApp'
+
+  // To run only tests annotated with @SmallTest
+  testSize = 'small'
 }
 ```
 
-You may also setup your project to take parameters for class/method to be run from command line. E.g.:
+You may also setup your project to take parameters for class/method/testSize to be run from command line. E.g.:
 
-```
+```bash
 gradle spoon -PspoonClassName=fully.qualified.TestCase
+gradle spoon -PspoonTestSize=small
 ```
 
 And project configuration:
@@ -48,6 +52,9 @@ And project configuration:
 spoon {
   if (project.hasProperty('spoonClassName')) {
     className = project.spoonClassName  
+  }
+  if (project.hasProperty('spoonTestSize')) {
+    testSize = project.spoonTestSize
   }
 }
 ```
