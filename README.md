@@ -28,34 +28,15 @@ spoon {
   // for debug output
   debug = true
 
+  // If enabled, will create tasks for running subsets of all tests -
+  // one for each test size annotation (@SmallTest, @MediumTest, @LargeTest)
+  useTestSizes = true
+
   // To run a single test class
   className = 'fully.qualified.TestCase'
 
   // To run a single method in TestCase
   methodName = 'testMyApp'
-
-  // To run only tests annotated with @SmallTest
-  testSize = 'small'
-}
-```
-
-You may also setup your project to take parameters for class/method/testSize to be run from command line. E.g.:
-
-```bash
-gradle spoon -PspoonClassName=fully.qualified.TestCase
-gradle spoon -PspoonTestSize=small
-```
-
-And project configuration:
-
-```groovy
-spoon {
-  if (project.hasProperty('spoonClassName')) {
-    className = project.spoonClassName  
-  }
-  if (project.hasProperty('spoonTestSize')) {
-    testSize = project.spoonTestSize
-  }
 }
 ```
 
@@ -82,6 +63,22 @@ In order to run them on some concrete devices instead, you may specify their ser
 ```
 spoon {
   devices = ['333236E9AE5800EC']
+}
+```
+
+You may also setup your project to take parameters for class/method to be run from command line. E.g.:
+
+```bash
+gradle spoon -PspoonClassName=fully.qualified.TestCase
+```
+
+And project configuration:
+
+```groovy
+spoon {
+  if (project.hasProperty('spoonClassName')) {
+    className = project.spoonClassName  
+  }
 }
 ```
 
