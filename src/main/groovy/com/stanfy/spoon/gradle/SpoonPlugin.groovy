@@ -34,45 +34,64 @@ class SpoonPlugin implements Plugin<Project> {
     AppExtension android = project.android
     android.testVariants.all { TestVariant variant ->
 
-      String taskName = "${TASK_PREFIX}${variant.name.capitalize()}"
-
-      SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
       SpoonExtension config = project.spoon
-      task.configure {
-        group = JavaBasePlugin.VERIFICATION_GROUP
-        description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
-        applicationApk = variant.testedVariant.outputFile
-        instrumentationApk = variant.outputFile
-        title = "$project.name $variant.name"
 
-        File outputBase = config.baseOutputDir
-        if (!outputBase) {
-          outputBase = new File(project.buildDir, "spoon")
-        }
-        output = new File(outputBase, variant.testedVariant.dirName)
+      def testSubsets = ((config.useTestSizes)
+        ? ["all", "small", "medium", "large"]
+        : ["all"]
+      )
 
-        debug = config.debug
-        ignoreFailures = config.ignoreFailures
-        devices = config.devices
-        allDevices = !config.devices
-        noAnimations = config.noAnimations
+      testSubsets.each { String subset ->
 
-        failIfNoDeviceConnected = project.spoon.failIfNoDeviceConnected
-        if (project.spoon.className) {
-          className = project.spoon.className
-          if (project.spoon.methodName) {
-            methodName = project.spoon.methodName
-          }          
+        boolean isTestSubset = subset != "all"
+
+        String taskName = "${TASK_PREFIX}${variant.name.capitalize()}"
+        if (isTestSubset) { 
+          taskName += subset.capitalize() 
         }
 
-        if (project.spoon.testSize) {
-          testSize = project.spoon.testSize
+        SpoonRunTask task = project.tasks.create(taskName, SpoonRunTask)
+        
+        task.configure {
+          group = JavaBasePlugin.VERIFICATION_GROUP
+          description = "Runs ${subset} instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
+          applicationApk = variant.testedVariant.outputFile
+          instrumentationApk = variant.outputFile
+          title = "$project.name $variant.name" + ((isTestSubset) ? " - ${subset} tests" : "")
+
+          File outputBase = config.baseOutputDir
+          if (!outputBase) {
+            outputBase = new File(project.buildDir, "spoon")
+          }
+          String outputSuffix = ""
+          if (isTestSubset) {
+            outputSuffix = "-${subset}"
+          }
+          output = new File(outputBase, variant.testedVariant.dirName + outputSuffix)
+
+          debug = config.debug
+          ignoreFailures = config.ignoreFailures
+          devices = config.devices
+          allDevices = !config.devices
+          noAnimations = config.noAnimations
+          failIfNoDeviceConnected = project.spoon.failIfNoDeviceConnected
+
+          if (isTestSubset) {
+            testSize = subset
+          }
+
+          if (project.spoon.className) {
+            className = project.spoon.className
+            if (project.spoon.methodName) {
+              methodName = project.spoon.methodName
+            }          
+          }
+
+          dependsOn variant.assemble, variant.testedVariant.assemble
         }
 
-        dependsOn variant.assemble, variant.testedVariant.assemble
+        spoonTask.dependsOn task
       }
-
-      spoonTask.dependsOn task
     }
 
   }
