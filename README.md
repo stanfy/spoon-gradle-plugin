@@ -28,10 +28,6 @@ spoon {
   // for debug output
   debug = true
 
-  // If enabled, will create tasks for running subsets of all tests -
-  // one for each test size annotation (@SmallTest, @MediumTest, @LargeTest)
-  useTestSizes = true
-
   // To run a single test class
   className = 'fully.qualified.TestCase'
 
