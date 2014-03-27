@@ -5,6 +5,7 @@ import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner
 import com.squareup.spoon.SpoonRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -49,6 +50,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   boolean noAnimations
   
   /** Size of test to be run ('small' / 'medium' / 'large'). */
+  @Input
   String testSize
 
   /** Instrumentation APK. */
