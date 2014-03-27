@@ -66,6 +66,14 @@ spoon {
 }
 ```
 
+It is also allowed to specify specify size of tests that should be run. You may run all the tests
+annotated as `@SmallTest` with the following line:
+```bash
+gradle spoonSmall
+```
+Run `gradle tasks` for details about size rules.
+
+
 You may also setup your project to take parameters for class/method to be run from command line. E.g.:
 
 ```bash

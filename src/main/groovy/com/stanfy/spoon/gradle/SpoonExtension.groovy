@@ -14,10 +14,6 @@ class SpoonExtension {
   /** Ignore test failures flag. */
   boolean ignoreFailures
 
-  /** If enabled, will create tasks for running subsets of all tests -
-      one for each test size annotation (@SmallTest, @MediumTest, @LargeTest). */
-  boolean useTestSizes
-
   /** Fully qualified name of the test class to be run (e.g. com.example.foo.test.MyTestCase). */
   String className
 

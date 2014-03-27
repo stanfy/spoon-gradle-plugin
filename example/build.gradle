@@ -47,10 +47,6 @@ spoon {
   // Set custom test reports directory (defaults to "spoon")
   baseOutputDir = file("$buildDir/custom-report-dir")
 
-  // When true, tasks for will running subsets of all tests will be created -
-  // one for each test size annotation (@SmallTest, @MediumTest, @LargeTest).
-  useTestSizes = true
-
   // Enable setting test class/method-to-be-run from command line. E.g.:
   // $> ../gradlew spoonFreeDebugTest -PspoonClassName=com.stanfy.spoon.example.test.MainActivityTest -PspoonMethodName=testSetText
   if (project.hasProperty('spoonClassName')) {

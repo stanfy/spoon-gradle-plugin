@@ -19,4 +19,16 @@ class SpoonPluginSpec extends Specification {
     e.message == "Android plugin is not found"
   }
 
+  def "should add spoon task"() {
+    when:
+    Project p = ProjectBuilder.builder().build()
+    p.apply plugin: 'android'
+    p.apply plugin: 'spoon'
+
+    then:
+    p.tasks.findByName('spoon') != null
+  }
+
+  // TODO: still do not know how to properly make integration tests; use tooling API?
+
 }

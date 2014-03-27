@@ -3,13 +3,10 @@ package com.stanfy.spoon.gradle
 import com.android.build.gradle.AppPlugin
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner
 import com.squareup.spoon.SpoonRunner
+import groovy.transform.PackageScope
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.VerificationTask
+import org.gradle.api.tasks.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -17,6 +14,10 @@ import org.slf4j.LoggerFactory
  * Task for using SpoonRunner.
  */
 class SpoonRunTask extends DefaultTask implements VerificationTask {
+
+  /** All sizes should be run. */
+  @PackageScope
+  static final String TEST_SIZE_ALL = "all";
 
   /** Plugin dependency name. */
   private static final String PLUGIN_DEP_NAME = "com.stanfy.spoon:spoon-gradle-plugin"
@@ -29,6 +30,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   private static final Logger LOG = LoggerFactory.getLogger(SpoonRunTask.class)
 
   /** A title for the output website. */
+  @Input
   String title
 
   /** If true then test failures do not cause a build failure. */
@@ -91,9 +93,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
 
     LOG.debug("No animations: $noAnimations")
 
-    if (testSize) {
-      LOG.debug("Test size: $testSize")       
-    }
+    LOG.debug("Test size: $testSize")
 
     String cp = getClasspath()
     LOG.debug("Classpath: $cp")
@@ -111,7 +111,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
 
-    if(testSize) {
+    if (testSize != TEST_SIZE_ALL) {
       // Will throw exception with informative message if provided size is illegal
       runBuilder.setTestSize(IRemoteAndroidTestRunner.TestSize.getTestSize(testSize))
     }    
