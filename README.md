@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.9.3'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.9.6'
   }
 }
 
