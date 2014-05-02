@@ -107,7 +107,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setDebug(debug)
         .setClassName(className)
         .setMethodName(methodName)
-        .setAndroidSdk(project.plugins.withType(AppPlugin).toList().get(0).sdkDirectory)
+        .setAndroidSdk(project.android.sdkDirectory)
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
 
