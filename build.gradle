@@ -12,7 +12,7 @@ apply plugin: 'nexus'
 apply plugin: 'project-report'
 
 group = 'com.stanfy.spoon'
-version = '0.9.7-SNAPSHOT'
+version = '0.10.0'
 
 task wrapper(type: Wrapper) {
   gradleVersion = '1.8'
