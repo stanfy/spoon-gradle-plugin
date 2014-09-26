@@ -1,6 +1,7 @@
 package com.stanfy.spoon.gradle
 
 import org.gradle.api.Project
+import org.gradle.api.internal.plugins.PluginApplicationException
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
@@ -15,20 +16,26 @@ class SpoonPluginSpec extends Specification {
     p.apply plugin: 'spoon'
 
     then:
-    def e = thrown(IllegalStateException.class)
-    e.message == "Android plugin is not found"
+    def e = thrown(PluginApplicationException.class)
+    e.cause.message == "Android plugin is not found"
   }
 
-//  def "should add spoon task"() {
-//    when:
-//    Project p = ProjectBuilder.builder().build()
-//    p.apply plugin: 'android'
-//    p.apply plugin: 'spoon'
-//
-//    then:
-//    p.tasks.findByName('spoon') != null
-//  }
+  def "can be applied to library"() {
+    when:
+    Project p = ProjectBuilder.builder().build()
+    p.apply plugin: 'com.android.library'
+    p.apply plugin: 'spoon'
+    then:
+    p.spoon
+  }
 
-  // TODO: still do not know how to properly make integration tests; use tooling API?
+  def "can be applied to application"() {
+    when:
+    Project p = ProjectBuilder.builder().build()
+    p.apply plugin: 'com.android.application'
+    p.apply plugin: 'spoon'
+    then:
+    p.spoon
+  }
 
 }

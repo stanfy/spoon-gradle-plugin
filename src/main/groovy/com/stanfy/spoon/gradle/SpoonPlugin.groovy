@@ -1,7 +1,9 @@
 package com.stanfy.spoon.gradle
 
-import com.android.build.gradle.AppExtension
 import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.BaseExtension
+import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.api.TestVariant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,38 +20,41 @@ class SpoonPlugin implements Plugin<Project> {
   @Override
   void apply(final Project project) {
 
-    if (!project.plugins.withType(AppPlugin)) {
+    if (!project.plugins.findPlugin(AppPlugin) && !project.plugins.findPlugin(LibraryPlugin)) {
       throw new IllegalStateException("Android plugin is not found")
     }
 
     project.extensions.add "spoon", SpoonExtension
 
-    def spoonTask = project.task("spoon") {
+    def spoonTask = project.task(TASK_PREFIX) {
       group = JavaBasePlugin.VERIFICATION_GROUP
       description = "Runs all the instrumentation test variations on all the connected devices"
     }
 
-    AppExtension android = project.android
+    BaseExtension android = project.android
     android.testVariants.all { TestVariant variant ->
 
       String taskName = "${TASK_PREFIX}${variant.name.capitalize()}"
-      SpoonRunTask task = createTask(taskName, variant, project)
-
-      task.configure {
-        title = "$project.name $variant.name"
-        description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
+      List<SpoonRunTask> tasks = createTask(variant, project, "")
+      tasks.each {
+        it.configure {
+          title = "$project.name $variant.name"
+          description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
+        }
       }
 
-      spoonTask.dependsOn task
+      spoonTask.dependsOn tasks
 
       project.tasks.addRule(patternString(taskName)) { String ruleTaskName ->
         if (ruleTaskName.startsWith(taskName)) {
           String size = (ruleTaskName - taskName).toLowerCase(Locale.US)
           if (isValidSize(size)) {
-            SpoonRunTask sizeTask = createTask(ruleTaskName, variant, project)
-            sizeTask.configure {
-              title = "$project.name $variant.name - $size tests"
-              testSize = size
+            List<SpoonRunTask> sizeTasks = createTask(variant, project, size.capitalize())
+            sizeTasks.each {
+              it.configure {
+                title = "$project.name $variant.name - $size tests"
+                testSize = size
+              }
             }
           }
         }
@@ -84,39 +89,47 @@ class SpoonPlugin implements Plugin<Project> {
     return "Pattern: $taskName<TestSize>: run instrumentation tests of particular size"
   }
 
-  private static SpoonRunTask createTask(final String name, final TestVariant variant, final Project project) {
-    SpoonExtension config = project.spoon
-    SpoonRunTask task = project.tasks.create(name, SpoonRunTask)
-
-    task.configure {
-      group = JavaBasePlugin.VERIFICATION_GROUP
-      applicationApk = variant.testedVariant.outputFile
-      instrumentationApk = variant.outputFile
-
-      File outputBase = config.baseOutputDir
-      if (!outputBase) {
-        outputBase = new File(project.buildDir, "spoon")
-      }
-      output = new File(outputBase, variant.testedVariant.dirName)
-
-      debug = config.debug
-      ignoreFailures = config.ignoreFailures
-      devices = config.devices
-      allDevices = !config.devices
-      noAnimations = config.noAnimations
-      failIfNoDeviceConnected = project.spoon.failIfNoDeviceConnected
-
-      testSize = SpoonRunTask.TEST_SIZE_ALL
-
-      if (project.spoon.className) {
-        className = project.spoon.className
-        if (project.spoon.methodName) {
-          methodName = project.spoon.methodName
-        }
-      }
-
-      dependsOn variant.assemble, variant.testedVariant.assemble
+  private static List<SpoonRunTask> createTask(final TestVariant variant, final Project project, final String suffix) {
+    if (variant.outputs.size() > 1) {
+      throw new UnsupportedOperationException("Spoon plugin for gradle does not support abi/density splits for test apks")
     }
+    SpoonExtension config = project.spoon
+    return variant.testedVariant.outputs.collect { def projectOutput ->
+      SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${projectOutput.name.capitalize()}${suffix}", SpoonRunTask)
+      task.configure {
+        group = JavaBasePlugin.VERIFICATION_GROUP
+        if (projectOutput instanceof ApkVariantOutput) {
+          applicationApk = projectOutput.outputFile
+        } else {
+          applicationApk = variant.outputs[0].outputFile
+        }
+        instrumentationApk = variant.outputs[0].outputFile
+
+        File outputBase = config.baseOutputDir
+        if (!outputBase) {
+          outputBase = new File(project.buildDir, "spoon")
+        }
+        output = new File(outputBase, projectOutput.dirName)
+
+        debug = config.debug
+        ignoreFailures = config.ignoreFailures
+        devices = config.devices
+        allDevices = !config.devices
+        noAnimations = config.noAnimations
+        failIfNoDeviceConnected = config.failIfNoDeviceConnected
+
+        testSize = SpoonRunTask.TEST_SIZE_ALL
+
+        if (config.className) {
+          className = config.className
+          if (config.methodName) {
+            methodName = config.methodName
+          }
+        }
+
+        dependsOn projectOutput.assemble, variant.assemble
+      }
+    } as List<SpoonRunTask>
   }
 
 }
