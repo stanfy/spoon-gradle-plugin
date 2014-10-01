@@ -5,26 +5,26 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.10.1'
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.10.1-SNAPSHOT'
+    classpath 'com.android.tools.build:gradle:0.13.1'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.13.0-SNAPSHOT'
   }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
 android {
-  compileSdkVersion 19
-  buildToolsVersion "19.0.3"
+  compileSdkVersion 20
+  buildToolsVersion "20.0.0"
 
   defaultConfig {
     minSdkVersion 7
-    targetSdkVersion 19
+    targetSdkVersion 20
 
     versionCode 1
     versionName '1.0'
 
-    testPackageName "com.stanfy.spoon.example.test"
+    testApplicationId "com.stanfy.spoon.example.test"
     testInstrumentationRunner "android.test.InstrumentationTestRunner"
   }
 
@@ -64,4 +64,17 @@ repositories {
 
 dependencies {
   androidTestCompile "com.squareup.spoon:spoon-client:1.1.0"
+}
+
+// for integration test of this plugin
+check << {
+  println "Checking spoon tasks..."
+  assert project.tasks.spoon != null
+  assert project.tasks.spoonFreeDebugTest != null
+  assert project.tasks.spoonProDebugTest != null
+
+  assert project.tasks.spoonFreeDebugTest.debug
+  assert "$project.tasks.spoonFreeDebugTest.output".startsWith("$buildDir/custom-report-dir")
+
+  println "SUCCESS"
 }
