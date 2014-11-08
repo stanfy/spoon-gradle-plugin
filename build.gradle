@@ -12,7 +12,7 @@ apply plugin: 'nexus'
 apply plugin: 'project-report'
 
 group = 'com.stanfy.spoon'
-version = '0.14.0'
+version = '0.14.1-SNAPSHOT'
 
 jar {
   manifest {
