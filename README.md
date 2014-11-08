@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.10.0'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.14.0'
   }
 }
 
@@ -49,7 +49,7 @@ For making screenshots add `spoon-client` dependency to your tests compile confi
 ```groovy
 dependencies {
 
-  androidTestCompile 'com.squareup.spoon:spoon-client:1.1.0'
+  androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
 
 }
 ```
