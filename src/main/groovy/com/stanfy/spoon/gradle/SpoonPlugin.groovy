@@ -71,7 +71,7 @@ class SpoonPlugin implements Plugin<Project> {
         String size = suffix.toLowerCase(Locale.US)
         if (isValidSize(size)) {
           def variantTaskNames = spoonTask.taskDependencies.getDependencies(spoonTask).collect() { it.name }
-          project.task(ruleTaskName, dependsOn: variantTaskNames.collect() { "${it}${size}" })
+          project.task(ruleTaskName, dependsOn: variantTaskNames.collect() { "${it}${size.capitalize()}" })
         }
       }
     }
@@ -89,21 +89,25 @@ class SpoonPlugin implements Plugin<Project> {
     return "Pattern: $taskName<TestSize>: run instrumentation tests of particular size"
   }
 
-  private static List<SpoonRunTask> createTask(final TestVariant variant, final Project project, final String suffix) {
-    if (variant.outputs.size() > 1) {
-      throw new UnsupportedOperationException("Spoon plugin for gradle does not support abi/density splits for test apks")
+  private static List<SpoonRunTask> createTask(final TestVariant testVariant, final Project project, final String suffix) {
+    if (testVariant.outputs.size() > 1) {
+      throw new UnsupportedOperationException("Spoon plugin for gradle currently does not support abi/density splits for test apks")
     }
     SpoonExtension config = project.spoon
-    return variant.testedVariant.outputs.collect { def projectOutput ->
-      SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${projectOutput.name.capitalize()}${suffix}", SpoonRunTask)
+    return testVariant.testedVariant.outputs.collect { def projectOutput ->
+      SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${testVariant.name.capitalize()}${suffix}", SpoonRunTask)
       task.configure {
         group = JavaBasePlugin.VERIFICATION_GROUP
+
+        def instrumentationPackage = testVariant.outputs[0].outputFile
         if (projectOutput instanceof ApkVariantOutput) {
           applicationApk = projectOutput.outputFile
         } else {
-          applicationApk = variant.outputs[0].outputFile
+          // This is a hack for library projects.
+          // We supply the same apk as an application and instrumentation to the soon runner.
+          applicationApk = instrumentationPackage
         }
-        instrumentationApk = variant.outputs[0].outputFile
+        instrumentationApk = instrumentationPackage
 
         File outputBase = config.baseOutputDir
         if (!outputBase) {
@@ -127,7 +131,7 @@ class SpoonPlugin implements Plugin<Project> {
           }
         }
 
-        dependsOn projectOutput.assemble, variant.assemble
+        dependsOn projectOutput.assemble, testVariant.assemble
       }
     } as List<SpoonRunTask>
   }
