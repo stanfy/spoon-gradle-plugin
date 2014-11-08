@@ -12,7 +12,7 @@ apply plugin: 'nexus'
 apply plugin: 'project-report'
 
 group = 'com.stanfy.spoon'
-version = '0.13.0-SNAPSHOT'
+version = '0.14.0-SNAPSHOT'
 
 jar {
   manifest {
@@ -27,15 +27,16 @@ jar {
 
 repositories {
   mavenCentral()
+  mavenLocal()
 }
 
 dependencies {
   compile gradleApi()
   compile localGroovy()
 
-  compile 'com.squareup.spoon:spoon-runner:1.1.1'
+  compile 'com.squareup.spoon:spoon-runner:1.1.2'
 
-  compile 'com.android.tools.build:gradle:0.13.1'
+  compile 'com.android.tools.build:gradle:0.14.1'
 
   testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
     exclude group: 'org.codehaus.groovy'
