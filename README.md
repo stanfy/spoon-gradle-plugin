@@ -86,6 +86,23 @@ spoon {
 }
 ```
 
+Known issues
+------------
+If you have troubles with running Android Lint after this plugin is applied, try the following workaround
+```groovy
+buildscript {
+  // ...
+  dependencies {
+    classpath('com.stanfy.spoon:spoon-gradle-plugin:0.14.1') {
+      exclude module: 'guava'
+    }
+    classpath 'com.google.guava:guava:17.0'
+  }
+}
+```
+You can find details in the [related issue](https://github.com/stanfy/spoon-gradle-plugin/issues/33).
+
+
 License
 -------
 
