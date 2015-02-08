@@ -94,7 +94,7 @@ class SpoonPlugin implements Plugin<Project> {
       throw new UnsupportedOperationException("Spoon plugin for gradle currently does not support abi/density splits for test apks")
     }
     SpoonExtension config = project.spoon
-    return testVariant.testedVariant.outputs.collect { def projectOutput ->
+    return testVariant.outputs.collect { def projectOutput ->
       SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${testVariant.name.capitalize()}${suffix}", SpoonRunTask)
       task.configure {
         group = JavaBasePlugin.VERIFICATION_GROUP
