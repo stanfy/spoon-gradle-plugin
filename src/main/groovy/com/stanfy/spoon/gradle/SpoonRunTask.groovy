@@ -41,6 +41,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
 
   /** Debug logging switcher. */
   boolean debug
+  
+  /** adbTimeout */
+  int adbTimeout
 
   /** Name of the one test to run. */
   String className
@@ -114,7 +117,11 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     if (testSize != TEST_SIZE_ALL) {
       // Will throw exception with informative message if provided size is illegal
       runBuilder.setTestSize(IRemoteAndroidTestRunner.TestSize.getTestSize(testSize))
-    }    
+    }  
+    
+    if (adbTimeout.toString().isInteger()){
+      runBuilder.setAdbTimeout(adbTimeout)
+    }  
         
     if (allDevices) {
       runBuilder.useAllAttachedDevices()

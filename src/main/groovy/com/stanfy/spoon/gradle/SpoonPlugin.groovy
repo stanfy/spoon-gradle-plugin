@@ -121,6 +121,7 @@ class SpoonPlugin implements Plugin<Project> {
         allDevices = !config.devices
         noAnimations = config.noAnimations
         failIfNoDeviceConnected = config.failIfNoDeviceConnected
+        adbTimeout = config.adbTimeout
 
         testSize = SpoonRunTask.TEST_SIZE_ALL
 

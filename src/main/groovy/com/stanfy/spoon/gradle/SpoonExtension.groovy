@@ -28,5 +28,8 @@ class SpoonExtension {
 
   /** Output directory for the spoon report files. If empty, the default dir will be used */
   File baseOutputDir
+  
+  /** adbTimeout (in second) */
+  int adbTimeout
 
 }
