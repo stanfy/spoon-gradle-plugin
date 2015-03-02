@@ -119,7 +119,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       runBuilder.setTestSize(IRemoteAndroidTestRunner.TestSize.getTestSize(testSize))
     }  
     
-    if (adbTimeout.toString().isInteger()){
+    if (adbTimeout.toString().isInteger()) {
       runBuilder.setAdbTimeout(adbTimeout)
     }  
         
