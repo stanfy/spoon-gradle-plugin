@@ -23,13 +23,14 @@ class SpoonExtension {
   /** Devices to run the tests on (specified with serial numbers). */
   Set<String> devices
   
-  /** Whether or not animations are enabled, useful for slow machines or projects with many screenshots */
+  /** Whether or not animations are enabled, useful for slow machines or projects with many screenshots. */
   boolean noAnimations
 
-  /** Output directory for the spoon report files. If empty, the default dir will be used */
+  /** Output directory for the spoon report files. If empty, the default dir will be used. */
   File baseOutputDir
   
-  /** adbTimeout (in second) */
-  int adbTimeout
+  /** ADB timeout (in seconds). */
+  // Since negative timeouts do not make sense, -1 seems to be a good value to indicate timeout is not set.
+  int adbTimeout = -1
 
 }

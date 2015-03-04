@@ -1,6 +1,5 @@
 package com.stanfy.spoon.gradle
 
-import com.android.build.gradle.AppPlugin
 import com.android.ddmlib.testrunner.IRemoteAndroidTestRunner
 import com.squareup.spoon.SpoonRunner
 import groovy.transform.PackageScope
@@ -42,8 +41,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Debug logging switcher. */
   boolean debug
   
-  /** adbTimeout */
-  int adbTimeout
+  /** ADB timeout in ms. */
+  int adbTimeout = -1
 
   /** Name of the one test to run. */
   String className
@@ -119,7 +118,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       runBuilder.setTestSize(IRemoteAndroidTestRunner.TestSize.getTestSize(testSize))
     }  
     
-    if (adbTimeout.toString().isInteger()) {
+    if (adbTimeout != -1) {
+      LOG.info("ADB timeout $adbTimeout")
       runBuilder.setAdbTimeout(adbTimeout)
     }  
         
