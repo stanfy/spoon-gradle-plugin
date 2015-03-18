@@ -1,3 +1,9 @@
+Version 0.14.1
+--------------
+*2014-11-10*
+
+- Binaries are compiled for Java 6. 0.14.0 was compiled for Java 7.
+
 Version 0.14.0
 --------------
 *2014-11-08*
