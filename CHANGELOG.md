@@ -6,6 +6,7 @@ Version 1.0.0
   Now we can run spoon for multiple flavors/subprojects without adb issues 
   (see [spoon changelog](https://github.com/square/spoon/blob/master/CHANGELOG.md)).
 - It's ok now to specify the plugin dependency in a parent gradle project (fixed #1).
+- Fixed classpath issues for multiple devices.
 
 Version 0.14.1
 --------------
