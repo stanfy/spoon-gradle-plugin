@@ -1,6 +1,6 @@
 Version 1.0.0
 -------------
-*2014-03-19*
+*2015-03-19*
 
 - Spoon runner dependency is changed to 1.1.7. 
   Now we can run spoon for multiple flavors/subprojects without adb issues 
