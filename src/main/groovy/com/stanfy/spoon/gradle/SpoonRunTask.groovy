@@ -6,6 +6,7 @@ import groovy.transform.PackageScope
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import org.gradle.api.artifacts.ResolvedDependency
 import org.gradle.api.tasks.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -144,38 +145,75 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     }
   }
 
-  private def findPluginDependency(final Project project) {
-    def pluginDep = null
-    //noinspection GroovyAssignabilityCheck
-    project.buildscript.configurations.each {
-      if (pluginDep) {
-        return
-      }
+  private static def findCpDependency(final Project project, final String prefix) {
+    def configuration = project.buildscript.configurations.classpath
+    return configuration.resolvedConfiguration.firstLevelModuleDependencies.find {
+      it.name.startsWith prefix
+    }
+  }
 
-      pluginDep = it.resolvedConfiguration.firstLevelModuleDependencies.find {
-        it.name.startsWith SpoonRunTask.PLUGIN_DEP_NAME
+  private def lookupDependency(final String prefix) {
+    def dep = null
+    def p = project, pp = null
+    while (!dep && p) {
+      pp = p
+      dep = findCpDependency(p, prefix)
+      p = p.parent
+    }
+    return [dep, pp]
+  }
+
+  private static void collectDependencies(ResolvedDependency root, def classpath, def allDeps) {
+    root.children.each { dep ->
+      def conflict = allDeps.find { it.moduleName == dep.moduleName && it.moduleGroup == dep.moduleGroup }
+      if (conflict && conflict.moduleVersion != dep.moduleVersion) {
+        LOG.warn("There is a dependencies conflict for ${dep.moduleGroup}:${dep.modeuleName}. "
+            + "Versions: ${conflict.modeuleVersion} and ${dep.modeuleVersion}")
+      } else {
+        allDeps.add dep
       }
     }
-    return pluginDep
+    classpath.addAll root.allModuleArtifacts.collect { artifact -> artifact.file }
+    root.children.each {
+      collectDependencies it, classpath, allDeps
+    }
+  }
+
+  private static void checkDependencies(ResolvedDependency root, def classpath, def allDeps) {
+    root.children.each { dep ->
+      def existing = allDeps.find { it.moduleName == dep.moduleName && it.moduleGroup == dep.moduleGroup }
+      if (existing) {
+        collectDependencies(dep, classpath, allDeps)
+      }
+    }
+    root.children.each { dep ->
+      checkDependencies(dep, classpath, allDeps)
+    }
   }
 
   private String getClasspath() {
-    def pluginDep = null
-    def p = project
-    while (!pluginDep && p) {
-      pluginDep = findPluginDependency(p)
-      p = p.parent
-    }
+    def (pluginDep, usedProject) = lookupDependency(PLUGIN_DEP_NAME)
     if (!pluginDep) {
       throw new IllegalStateException("Could not resolve spoon dependencies")
     }
 
-    def spoon = pluginDep.children.find { it.name.startsWith SpoonRunTask.SPOON_DEP_NAME }
+    ResolvedDependency spoon = pluginDep.children.find { it.name.startsWith SpoonRunTask.SPOON_DEP_NAME } as ResolvedDependency
     if (!spoon) { throw new IllegalStateException("Cannot find spoon-runner in dependencies") }
     // Collect spoon dependencies.
-    def classpath = spoon.allModuleArtifacts.collect { it.file }
+    def classpath = new HashSet(), allDeps = []
+    collectDependencies(spoon, classpath, allDeps)
     // Add spoon runner.
     classpath += pluginDep.allModuleArtifacts.find { it.name == SpoonRunTask.SPOON_RUNNER_ARTIFACT }.file
+
+    /*
+     * XXX Due to how Gradle dependencies resolution works we can get not all the required deps from the step above.
+     *     For example spoon dep is com.android.tools.ddms:ddmlib:23.2.1.
+     *     If you use Android plugin 1.1.3, ddmlib will be resolved to 24.1.3. And its dependencies will not traversed yet.
+     *     Hence, we traverse the whole tree again and pick up those parts of the tree that we miss.
+     */
+    usedProject.buildscript.configurations.classpath.resolvedConfiguration.firstLevelModuleDependencies.each {
+      SpoonRunTask.checkDependencies((ResolvedDependency) it, classpath, allDeps)
+    }
 
     return project.files(classpath).asPath
   }

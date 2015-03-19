@@ -12,7 +12,7 @@ apply plugin: 'nexus'
 apply plugin: 'project-report'
 
 group = 'com.stanfy.spoon'
-version = '0.14.2-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 
 jar {
   manifest {
@@ -79,5 +79,5 @@ modifyPom {
 
 task integrationTest(type: GradleBuild, dependsOn: ['check', 'install']) {
   dir = file('example')
-  tasks = ['check']
+  tasks = ['clean', 'spoon']
 }

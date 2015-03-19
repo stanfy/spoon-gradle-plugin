@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:0.14.1'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.0'
   }
 }
 
@@ -91,7 +91,7 @@ If you have troubles with running Android Lint after this plugin is applied, try
 buildscript {
   // ...
   dependencies {
-    classpath('com.stanfy.spoon:spoon-gradle-plugin:0.14.1') {
+    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.0') {
       exclude module: 'guava'
     }
     classpath 'com.google.guava:guava:17.0'
@@ -100,6 +100,13 @@ buildscript {
 ```
 You can find details in the [related issue](https://github.com/stanfy/spoon-gradle-plugin/issues/33).
 
+Testing
+-------
+After making editions, run
+```
+./gradlew integrationTest
+```
+This will install the plugin to local maven repo and run spoon task in the example project.
 
 License
 -------
