@@ -1,3 +1,11 @@
+Version 1.0.0
+-------------
+*not released yet*
+
+- Spoon runner dependency is changed to 1.1.7. 
+  Now we can run spoon for multiple flavors/subprojects without adb issues.
+- It's ok now to specify the plugin dependency in a parent gradle project (fixed #1).
+
 Version 0.14.1
 --------------
 *2014-11-10*
