@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+apply plugin: 'spoon'
+
+android {
+  compileSdkVersion 21
+  buildToolsVersion "22.0.0"
+
+  defaultConfig {
+    minSdkVersion 7
+    targetSdkVersion 21
+
+    versionCode 1
+    versionName '1.0'
+
+    testApplicationId "com.stanfy.spoon.example.test"
+    testInstrumentationRunner "android.test.InstrumentationTestRunner"
+  }
+
+  productFlavors {
+    free {
+
+    }
+    pro {
+
+    }
+  }
+
+}
+
+spoon {
+
+  // Enable debug output
+  debug = true
+
+  // Set custom test reports directory (defaults to "spoon")
+  baseOutputDir = file("$buildDir/custom-report-dir")
+
+  // Enable setting test class/method-to-be-run from command line. E.g.:
+  // $> ../gradlew spoonFreeDebugTest -PspoonClassName=com.stanfy.spoon.example.test.MainActivityTest -PspoonMethodName=testSetText
+  if (project.hasProperty('spoonClassName')) {
+    className = project.spoonClassName
+
+    if (project.hasProperty('spoonMethodName')) {
+      methodName = project.spoonMethodName
+    }
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  androidTestCompile "com.squareup.spoon:spoon-client:1.1.7"
+}
+
+// for integration test of this plugin
+check << {
+  println "Checking spoon tasks..."
+  assert project.tasks.spoon != null
+  assert project.tasks.spoonFreeDebugTest != null
+  assert project.tasks.spoonProDebugTest != null
+
+  assert project.tasks.spoonFreeDebugTest.debug
+  assert "$project.tasks.spoonFreeDebugTest.output".startsWith("$buildDir/custom-report-dir")
+
+  println "SUCCESS"
+}

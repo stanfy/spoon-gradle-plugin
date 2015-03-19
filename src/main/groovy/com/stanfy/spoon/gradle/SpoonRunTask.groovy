@@ -5,6 +5,7 @@ import com.squareup.spoon.SpoonRunner
 import groovy.transform.PackageScope
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.Project
 import org.gradle.api.tasks.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -143,23 +144,39 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     }
   }
 
-  private String getClasspath() {
+  private def findPluginDependency(final Project project) {
     def pluginDep = null
-    def classpath = []
+    //noinspection GroovyAssignabilityCheck
     project.buildscript.configurations.each {
-      if (pluginDep) { return }
-
-      pluginDep = it.resolvedConfiguration.firstLevelModuleDependencies.find { it.name.startsWith SpoonRunTask.PLUGIN_DEP_NAME }
       if (pluginDep) {
-        def spoon = pluginDep.children.find { it.name.startsWith SpoonRunTask.SPOON_DEP_NAME }
-        if (!spoon) { throw new IllegalStateException("Cannot find spoon-runner in dependencies") }
-        classpath = spoon.allModuleArtifacts.collect { it.file }
-        classpath += pluginDep.allModuleArtifacts.find { it.name == SpoonRunTask.SPOON_RUNNER_ARTIFACT }.file
+        return
       }
 
+      pluginDep = it.resolvedConfiguration.firstLevelModuleDependencies.find {
+        it.name.startsWith SpoonRunTask.PLUGIN_DEP_NAME
+      }
+    }
+    return pluginDep
+  }
+
+  private String getClasspath() {
+    def pluginDep = null
+    def p = project
+    while (!pluginDep && p) {
+      pluginDep = findPluginDependency(p)
+      p = p.parent
+    }
+    if (!pluginDep) {
+      throw new IllegalStateException("Could not resolve spoon dependencies")
     }
 
-    if (!pluginDep) { throw new IllegalStateException("Could not resolve spoon dependencies") }
+    def spoon = pluginDep.children.find { it.name.startsWith SpoonRunTask.SPOON_DEP_NAME }
+    if (!spoon) { throw new IllegalStateException("Cannot find spoon-runner in dependencies") }
+    // Collect spoon dependencies.
+    def classpath = spoon.allModuleArtifacts.collect { it.file }
+    // Add spoon runner.
+    classpath += pluginDep.allModuleArtifacts.find { it.name == SpoonRunTask.SPOON_RUNNER_ARTIFACT }.file
+
     return project.files(classpath).asPath
   }
 
