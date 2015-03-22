@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.0'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.1'
   }
 }
 
@@ -91,7 +91,7 @@ If you have troubles with running Android Lint after this plugin is applied, try
 buildscript {
   // ...
   dependencies {
-    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.0') {
+    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.1') {
       exclude module: 'guava'
     }
     classpath 'com.google.guava:guava:17.0'

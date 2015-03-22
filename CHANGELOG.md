@@ -1,3 +1,9 @@
+Version 1.0.1
+-------------
+*2015-03-22*
+
+- Spoon runner dependency is changed to 1.1.8.
+
 Version 1.0.0
 -------------
 *2015-03-19*
