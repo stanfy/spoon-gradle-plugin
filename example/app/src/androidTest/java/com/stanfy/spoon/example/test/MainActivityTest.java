@@ -46,7 +46,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
   @MediumTest
   public void testMediumTest() throws Throwable {
     final MainActivity act = getActivity();
-    Spoon.screenshot(act, "startup-smallTest");
+    Spoon.screenshot(act, "startup-mediumTest");
   }
 
   @LargeTest
