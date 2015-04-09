@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.1'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
   }
 }
 
@@ -48,7 +48,7 @@ Generated reports are available at `build/spoon/${TEST_VARIANT}` folder.
 For making screenshots add `spoon-client` dependency to your tests compile configuration:
 ```groovy
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:1.1.3'
+  androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
 }
 ```
 
@@ -91,7 +91,7 @@ If you have troubles with running Android Lint after this plugin is applied, try
 buildscript {
   // ...
   dependencies {
-    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.1') {
+    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.2') {
       exclude module: 'guava'
     }
     classpath 'com.google.guava:guava:17.0'
