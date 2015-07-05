@@ -102,7 +102,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     String cp = getClasspath()
     LOG.debug("Classpath: $cp")
 
-    SpoonRunner.Builder runBuilder = new SpoonRunner.Builder()    
+    SpoonRunner.Builder runBuilder = new SpoonRunner.Builder()
+        .setTerminateAdb(false)
         .setTitle(title)
         .setApplicationApk(applicationApk)
         .setInstrumentationApk(instrumentationApk)
