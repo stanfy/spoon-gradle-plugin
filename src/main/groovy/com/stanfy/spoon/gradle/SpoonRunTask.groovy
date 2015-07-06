@@ -52,6 +52,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Name of the one test method to run. */
   String methodName
 
+  /** Extra arguments to pass to instrumentation. */
+  List<String> instrumentationArgs
+
   /** Whether or not animations are enabled */
   boolean noAnimations
   
@@ -115,6 +118,10 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setAndroidSdk(project.android.sdkDirectory)
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
+
+    if (instrumentationArgs) {
+        runBuilder.setInstrumentationArgs(instrumentationArgs)
+    }
 
     if (testSize != TEST_SIZE_ALL) {
       // Will throw exception with informative message if provided size is illegal

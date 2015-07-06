@@ -20,6 +20,9 @@ class SpoonExtension {
   /** Test method to be run. Used when `className` is provided. */
   String methodName
 
+  /** Extra arguments to pass to instrumentation. */
+  List<String> instrumentationArgs
+
   /** Devices to run the tests on (specified with serial numbers). */
   Set<String> devices
   

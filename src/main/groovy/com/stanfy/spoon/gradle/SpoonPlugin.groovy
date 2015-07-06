@@ -134,6 +134,9 @@ class SpoonPlugin implements Plugin<Project> {
             methodName = config.methodName
           }
         }
+        if (config.instrumentationArgs) {
+            instrumentationArgs = config.instrumentationArgs
+        }
 
         dependsOn projectOutput.assemble, testVariant.assemble
       }
