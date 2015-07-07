@@ -135,6 +135,14 @@ class SpoonPlugin implements Plugin<Project> {
           }
         }
 
+        if (config.numShards > 0) {
+          if (config.shardIndex >= config.numShards) {
+            throw new UnsupportedOperationException("shardIndex needs to be < numShards");
+          }
+          numShards = config.numShards
+          shardIndex = config.shardIndex
+        }
+
         dependsOn projectOutput.assemble, testVariant.assemble
       }
     } as List<SpoonRunTask>

@@ -77,6 +77,12 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Devices to run on. */
   Set<String> devices
 
+  /** The number of separate shards to create. */
+  int numShards
+
+  /** The shardIndex option to specify which shard to run. */
+  int shardIndex
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -98,6 +104,8 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     LOG.debug("No animations: $noAnimations")
 
     LOG.debug("Test size: $testSize")
+    LOG.debug("numShards: $numShards")
+    LOG.debug("shardIndex: $shardIndex")
 
     String cp = getClasspath()
     LOG.debug("Classpath: $cp")
@@ -115,6 +123,10 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setAndroidSdk(project.android.sdkDirectory)
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
+
+    if (numShards > 0) {
+      runBuilder.setInstrumentationArgs(["numShards=${numShards}".toString(), "shardIndex=${shardIndex}".toString()])
+    }
 
     if (testSize != TEST_SIZE_ALL) {
       // Will throw exception with informative message if provided size is illegal
