@@ -1,3 +1,10 @@
+Version 1.0.3
+-------------
+*2015-07-09*
+
+- Support for test sharding and custom instrumentation arguments.
+- Spoon runner dependency is changed to 1.1.10. 
+
 Version 1.0.2
 -------------
 *2015-04-09*
