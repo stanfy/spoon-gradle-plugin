@@ -13,7 +13,9 @@ android {
     versionName '1.0'
 
     testApplicationId "com.stanfy.spoon.example.test"
-    testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    // We use custom test runner in this example to check how instrumentation arguments can be passed.
+    // You can omit this configuration in your project build.gradle.
+    testInstrumentationRunner "com.stanfy.spoon.example.test.CustomTestRunner"
   }
 
   productFlavors {
@@ -44,6 +46,13 @@ spoon {
       methodName = project.spoonMethodName
     }
   }
+
+  // You can pass instrumentation arguments. Tests in this example assert this pair is passed.
+  instrumentationArgs = ["foo=bar"]
+
+  // It's also possible to configure tests sharding using convenient properties:
+  // numShards = 2
+  // shardIndex = 0
 }
 
 repositories {

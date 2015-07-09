@@ -52,6 +52,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Name of the one test method to run. */
   String methodName
 
+  /** Extra arguments to pass to instrumentation. */
+  List<String> instrumentationArgs
+
   /** Whether or not animations are enabled */
   boolean noAnimations
   
@@ -124,8 +127,17 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
 
+    def instrumentationArgs = this.instrumentationArgs
+    if (instrumentationArgs == null) {
+      instrumentationArgs = []
+    }
+
     if (numShards > 0) {
-      runBuilder.setInstrumentationArgs(["numShards=${numShards}".toString(), "shardIndex=${shardIndex}".toString()])
+      instrumentationArgs.add "numShards=${numShards}".toString()
+      instrumentationArgs.add "shardIndex=${shardIndex}".toString()
+    }
+    if (instrumentationArgs) {
+      runBuilder.setInstrumentationArgs(instrumentationArgs)
     }
 
     if (testSize != TEST_SIZE_ALL) {

@@ -134,6 +134,9 @@ class SpoonPlugin implements Plugin<Project> {
             methodName = config.methodName
           }
         }
+        if (config.instrumentationArgs) {
+            instrumentationArgs = config.instrumentationArgs
+        }
 
         if (config.numShards > 0) {
           if (config.shardIndex >= config.numShards) {
@@ -145,6 +148,8 @@ class SpoonPlugin implements Plugin<Project> {
 
         dependsOn projectOutput.assemble, testVariant.assemble
       }
+      task.outputs.upToDateWhen { false }
+      return task
     } as List<SpoonRunTask>
   }
 
