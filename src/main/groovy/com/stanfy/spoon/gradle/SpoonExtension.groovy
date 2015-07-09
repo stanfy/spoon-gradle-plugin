@@ -33,4 +33,10 @@ class SpoonExtension {
   // Since negative timeouts do not make sense, -1 seems to be a good value to indicate timeout is not set.
   int adbTimeout = -1
 
+  /** The number of separate shards to create. */
+  int numShards
+
+  /** The shardIndex option to specify which shard to run. */
+  int shardIndex
+
 }
