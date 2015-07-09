@@ -84,6 +84,26 @@ spoon {
 }
 ```
 
+Test Sharding
+-------------
+You can configure test sharding using the `numShards` and `shardIndex` properties 
+([documentation](https://developer.android.com/tools/testing-support-library/index.html#ajur-sharding)):
+```groovy
+spoon {
+  numShards = 4
+  shardIndex = 0
+}
+```
+
+Custom instrumentation arguments
+--------------------------------
+Use the `instrumentationArgs` property on `spoon` extension to pass custom parameters to your tests:
+```groovy
+spoon {
+  instrumentationArgs = ["foo=bar", "name=value"]
+}
+```
+
 Known issues
 ------------
 If you have troubles with running Android Lint after this plugin is applied, try the following workaround
@@ -111,7 +131,7 @@ This will install the plugin to local maven repo and run spoon task in the examp
 License
 -------
 
-    Copyright 2013 Stanfy Corp.
+    Copyright 2013-2015 Stanfy Corp.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
