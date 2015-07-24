@@ -172,8 +172,18 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
 
   private static def findCpDependency(final Project project, final String prefix) {
     def configuration = project.buildscript.configurations.classpath
-    return configuration.resolvedConfiguration.firstLevelModuleDependencies.find {
-      it.name.startsWith prefix
+    return configuration.resolvedConfiguration.firstLevelModuleDependencies.findResult {
+      return findChildDependency(it, prefix)
+    }
+  }
+
+  private static def findChildDependency(def dependency, final String prefix) {
+    if (dependency.name.startsWith(prefix)) {
+      return dependency
+    } else {
+      return dependency.children.findResult {
+        return findChildDependency(it, prefix)
+      }
     }
   }
 
