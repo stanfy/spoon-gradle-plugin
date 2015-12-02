@@ -4,9 +4,11 @@ buildscript {
   }
   dependencies {
     classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.3'
+    classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
   }
 }
 
+apply plugin: 'android-sdk-manager'
 apply plugin: 'groovy'
 apply plugin: 'nexus'
 apply plugin: 'project-report'
