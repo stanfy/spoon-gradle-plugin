@@ -8,8 +8,8 @@ cache:
 
 android:
   components:
-    - build-tools-22.0.0
-    - android-21
+    - build-tools-23.0.2
+    - android-23
     - sys-img-armeabi-v7a-android-21
     - extra-android-m2repository
   licenses:
@@ -31,9 +31,9 @@ install:
 
 before_script:
   - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-#  - emulator -avd test -no-skin -no-audio -no-window &
-#  - android-wait-for-emulator
-#  - adb shell input keyevent 82
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82
 
 script:
   - ./gradlew integrationTest
