@@ -149,8 +149,11 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       LOG.info("ADB timeout $adbTimeout")
       runBuilder.setAdbTimeout(adbTimeout)
     }  
-        
-    if (allDevices) {
+    if (project.hasProperty("deviceId")) {
+      runBuilder.addDevice(project.deviceId)
+      LOG.info("Using device $project.deviceId")
+    }
+    else if (allDevices) {
       runBuilder.useAllAttachedDevices()
       LOG.info("Using all the attached devices")
     } else {
