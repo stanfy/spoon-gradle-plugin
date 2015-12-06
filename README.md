@@ -51,7 +51,8 @@ dependencies {
   androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
 }
 ```
-
+Device Selection
+-------------
 By default the plugin runs tests on all the connected devices.
 In order to run them on some concrete devices instead, you may specify their serial numbers:
 ```groovy
@@ -59,6 +60,13 @@ spoon {
   devices = ['333236E9AE5800EC']
 }
 ```
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OR
+You can specify device Id on runtime too:
+```
+gradle spoon -PdeviceId=333236E9AE5800EC
+```
+(this way you can run tests for different variants **Parallely** on different devices)
+***
 
 It is also allowed to specify specify size of tests that should be run. You may run all the tests
 annotated as `@SmallTest` with the following line:
