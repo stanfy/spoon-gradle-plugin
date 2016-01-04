@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion "22.0.0"
+  compileSdkVersion 23
+  buildToolsVersion "23.0.1"
 
   defaultConfig {
     minSdkVersion 7
-    targetSdkVersion 21
+    targetSdkVersion 23
 
     versionCode 1
     versionName '1.0'
@@ -53,6 +53,8 @@ spoon {
   // It's also possible to configure tests sharding using convenient properties:
   // numShards = 2
   // shardIndex = 0
+
+  adbTimeout = 30
 }
 
 repositories {
