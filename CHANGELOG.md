@@ -1,9 +1,16 @@
+Version 1.0.4
+-------------
+*2016-01-08*
+
+- Adapt to Android plugin 1.5.0
+- Spoon runner dependency is changed to 1.3.1.
+
 Version 1.0.3
 -------------
 *2015-07-09*
 
 - Support for test sharding and custom instrumentation arguments.
-- Spoon runner dependency is changed to 1.1.10. 
+- Spoon runner dependency is changed to 1.1.10.
 
 Version 1.0.2
 -------------
@@ -21,8 +28,8 @@ Version 1.0.0
 -------------
 *2015-03-19*
 
-- Spoon runner dependency is changed to 1.1.7. 
-  Now we can run spoon for multiple flavors/subprojects without adb issues 
+- Spoon runner dependency is changed to 1.1.7.
+  Now we can run spoon for multiple flavors/subprojects without adb issues
   (see [spoon changelog](https://github.com/square/spoon/blob/master/CHANGELOG.md)).
 - It's ok now to specify the plugin dependency in a parent gradle project (fixed #1).
 - Fixed classpath issues for multiple devices.

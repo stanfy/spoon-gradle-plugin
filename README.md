@@ -17,7 +17,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
+    classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.4'
   }
 }
 
@@ -48,7 +48,7 @@ Generated reports are available at `build/spoon/${TEST_VARIANT}` folder.
 For making screenshots add `spoon-client` dependency to your tests compile configuration:
 ```groovy
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:1.1.9'
+  androidTestCompile 'com.squareup.spoon:spoon-client:1.3.1'
 }
 ```
 
@@ -86,7 +86,7 @@ spoon {
 
 Test Sharding
 -------------
-You can configure test sharding using the `numShards` and `shardIndex` properties 
+You can configure test sharding using the `numShards` and `shardIndex` properties
 ([documentation](https://developer.android.com/tools/testing-support-library/index.html#ajur-sharding)):
 ```groovy
 spoon {
@@ -111,7 +111,7 @@ If you have troubles with running Android Lint after this plugin is applied, try
 buildscript {
   // ...
   dependencies {
-    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.2') {
+    classpath('com.stanfy.spoon:spoon-gradle-plugin:1.0.4') {
       exclude module: 'guava'
     }
     classpath 'com.google.guava:guava:17.0'
@@ -131,7 +131,7 @@ This will install the plugin to local maven repo and run spoon task in the examp
 License
 -------
 
-    Copyright 2013-2015 Stanfy Corp.
+    Copyright 2013-2016 Stanfy Corp.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
