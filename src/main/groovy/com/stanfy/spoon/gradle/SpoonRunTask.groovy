@@ -86,6 +86,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** The shardIndex option to specify which shard to run. */
   int shardIndex
 
+  /** The codeCoverage option to calculate code coverage. */
+  boolean codeCoverage;
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -126,6 +129,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setAndroidSdk(project.android.sdkDirectory)
         .setClasspath(cp)
         .setNoAnimations(noAnimations)
+        .setCodeCoverage(codeCoverage)
 
     def instrumentationArgs = this.instrumentationArgs
     if (instrumentationArgs == null) {
