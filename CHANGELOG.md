@@ -1,3 +1,9 @@
+Version 1.1.0
+-------------
+*2016-04-28*
+
+- Provide coverage report (spoon runner 1.5.0 is used)
+
 Version 1.0.4
 -------------
 *2016-01-08*
