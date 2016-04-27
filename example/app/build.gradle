@@ -18,6 +18,12 @@ android {
     testInstrumentationRunner "com.stanfy.spoon.example.test.CustomTestRunner"
   }
 
+  buildTypes {
+    debug {
+      testCoverageEnabled = true
+    }
+  }
+
   productFlavors {
     free {
 
