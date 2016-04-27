@@ -55,6 +55,8 @@ spoon {
   // shardIndex = 0
 
   adbTimeout = 30
+
+  codeCoverage = true
 }
 
 repositories {
@@ -74,6 +76,8 @@ check << {
 
   assert project.tasks.spoonFreeDebugTest.debug
   assert "$project.tasks.spoonFreeDebugTest.output".startsWith("$buildDir/custom-report-dir")
+
+  assert project.tasks.spoonFreeDebugTest.codeCoverage
 
   println "SUCCESS"
 }
