@@ -104,6 +104,15 @@ spoon {
 }
 ```
 
+Code Coverage
+--------------------------------
+You can configure spoon to calculate code coverage by using `codeCoverage` property on `spoon` extension:
+```groovy
+spoon {
+  codeCoverage = true
+}
+```
+
 Known issues
 ------------
 If you have troubles with running Android Lint after this plugin is applied, try the following workaround

@@ -42,4 +42,6 @@ class SpoonExtension {
   /** The shardIndex option to specify which shard to run. */
   int shardIndex
 
+  /** The codeCoverage option to calculate code coverage. */
+  boolean codeCoverage
 }
