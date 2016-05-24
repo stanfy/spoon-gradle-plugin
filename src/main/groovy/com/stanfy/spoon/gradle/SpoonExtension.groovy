@@ -44,4 +44,7 @@ class SpoonExtension {
 
   /** The codeCoverage option to calculate code coverage. */
   boolean codeCoverage
+
+  /** The shard option to specify whether to shard tests or not. */
+  boolean shard
 }

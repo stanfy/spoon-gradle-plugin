@@ -122,6 +122,7 @@ class SpoonPlugin implements Plugin<Project> {
         noAnimations = config.noAnimations
         failIfNoDeviceConnected = config.failIfNoDeviceConnected
         codeCoverage = config.codeCoverage
+        shard = config.shard
         if (config.adbTimeout != -1) {
           // Timeout is defined in seconds in the config.
           adbTimeout = config.adbTimeout * 1000

@@ -94,6 +94,13 @@ spoon {
   shardIndex = 0
 }
 ```
+If you are specifying sharding for multiple devices, you may use spoon's built in auto-sharding by specifying:
+```groovy
+spoon {
+  shard = true
+}
+```
+This will automatically shard across all specified serials, and merge the results.
 
 Custom instrumentation arguments
 --------------------------------
