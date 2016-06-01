@@ -38,7 +38,7 @@ before_script:
 
 script:
   - ./gradlew clean build install
-  - cd example && ../gradlew clean spoon
+  - ( cd example && ../gradlew clean spoon )
 
 after_success:
   - ./scripts/deploy_to_maven.sh
