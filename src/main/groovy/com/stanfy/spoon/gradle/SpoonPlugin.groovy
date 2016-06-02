@@ -148,6 +148,12 @@ class SpoonPlugin implements Plugin<Project> {
           shardIndex = config.shardIndex
         }
 
+        if (!testVariant.assemble) {
+          throw new IllegalStateException("Assemble task is not provided for test variant $testVariant.name")
+        }
+        if (!projectOutput.assemble) {
+          throw new IllegalStateException("Assemble task is not provided for tested variant $testVariant.testedVariant.name")
+        }
         dependsOn projectOutput.assemble, testVariant.assemble
       }
       task.outputs.upToDateWhen { false }
