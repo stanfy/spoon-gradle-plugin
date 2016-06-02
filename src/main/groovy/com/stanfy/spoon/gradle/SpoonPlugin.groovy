@@ -4,10 +4,15 @@ import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryPlugin
 import com.android.build.gradle.api.ApkVariantOutput
-import com.android.build.gradle.api.TestVariant
+import com.android.build.gradle.internal.api.TestedVariant
+import com.android.build.gradle.internal.variant.ApkVariantOutputData
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.internal.DefaultDomainObjectSet
 import org.gradle.api.plugins.JavaBasePlugin
+
+import java.lang.reflect.Method
 
 /**
  * Gradle plugin for Spoon.
@@ -16,7 +21,8 @@ class SpoonPlugin implements Plugin<Project> {
 
   /** Task name prefix. */
   private static final String TASK_PREFIX = "spoon"
-
+  /** Assemble task holder from other variants. */
+  private static Task holder;
   @Override
   void apply(final Project project) {
 
@@ -32,28 +38,41 @@ class SpoonPlugin implements Plugin<Project> {
     }
 
     BaseExtension android = project.android
-    android.testVariants.all { TestVariant variant ->
 
-      String taskName = "${TASK_PREFIX}${variant.name.capitalize()}"
-      List<SpoonRunTask> tasks = createTask(variant, project, "")
-      tasks.each {
-        it.configure {
-          title = "$project.name $variant.name"
-          description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
+    DefaultDomainObjectSet variantSet
+
+    if(project.plugins.findPlugin(AppPlugin))
+      variantSet = android.applicationVariants
+    if(project.plugins.findPlugin(LibraryPlugin))
+      variantSet = android.libraryVariants
+
+
+
+    variantSet.all { TestedVariant variant ->
+      holder = variant.assemble
+      if(variant.testVariant != null) {
+
+        String taskName = "${TASK_PREFIX}${variant.name.capitalize()}"
+        List<SpoonRunTask> tasks = createTask(variant, project, "")
+        tasks.each {
+          it.configure {
+            title = "$project.name $variant.name"
+            description = "Runs instrumentation tests on all the connected devices for '${variant.name}' variation and generates a report with screenshots"
+          }
         }
-      }
 
-      spoonTask.dependsOn tasks
+        spoonTask.dependsOn tasks
 
-      project.tasks.addRule(patternString(taskName)) { String ruleTaskName ->
-        if (ruleTaskName.startsWith(taskName)) {
-          String size = (ruleTaskName - taskName).toLowerCase(Locale.US)
-          if (isValidSize(size)) {
-            List<SpoonRunTask> sizeTasks = createTask(variant, project, size.capitalize())
-            sizeTasks.each {
-              it.configure {
-                title = "$project.name $variant.name - $size tests"
-                testSize = size
+        project.tasks.addRule(patternString(taskName)) { String ruleTaskName ->
+          if (ruleTaskName.startsWith(taskName)) {
+            String size = (ruleTaskName - taskName).toLowerCase(Locale.US)
+            if (isValidSize(size)) {
+              List<SpoonRunTask> sizeTasks = createTask(variant, project, size.capitalize())
+              sizeTasks.each {
+                it.configure {
+                  title = "$project.name $variant.name - $size tests"
+                  testSize = size
+                }
               }
             }
           }
@@ -89,17 +108,18 @@ class SpoonPlugin implements Plugin<Project> {
     return "Pattern: $taskName<TestSize>: run instrumentation tests of particular size"
   }
 
-  private static List<SpoonRunTask> createTask(final TestVariant testVariant, final Project project, final String suffix) {
-    if (testVariant.outputs.size() > 1) {
+  private static List<SpoonRunTask> createTask(final TestedVariant testedVariant, final Project project, final String suffix) {
+    if (testedVariant.testVariant.outputs.size() > 1) {
       throw new UnsupportedOperationException("Spoon plugin for gradle currently does not support abi/density splits for test apks")
     }
+
     SpoonExtension config = project.spoon
-    return testVariant.testedVariant.outputs.collect { def projectOutput ->
-      SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${testVariant.name.capitalize()}${suffix}", SpoonRunTask)
+    return testedVariant.testVariant.outputs.collect { def projectOutput ->
+      SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${testedVariant.testVariant.name.capitalize()}${suffix}", SpoonRunTask)
       task.configure {
         group = JavaBasePlugin.VERIFICATION_GROUP
 
-        def instrumentationPackage = testVariant.outputs[0].outputFile
+        def instrumentationPackage = testedVariant.testVariant.outputs[0].outputFile
         if (projectOutput instanceof ApkVariantOutput) {
           applicationApk = projectOutput.outputFile
         } else {
@@ -147,14 +167,22 @@ class SpoonPlugin implements Plugin<Project> {
           numShards = config.numShards
           shardIndex = config.shardIndex
         }
+        //using reflection to get the variant output data, maybe there is a better way?
+        Class c = projectOutput.getClass()
+        Method method = c.getDeclaredMethod("getVariantOutputData")
+        final ApkVariantOutputData data = method.invoke(projectOutput)
+        //replacing the null assemble task using android gradle plugin 2.2-alpha2
+        data.assembleTask = holder
 
-        if (!testVariant.assemble) {
-          throw new IllegalStateException("Assemble task is not provided for test variant $testVariant.name")
+
+        if (!testedVariant.testVariant.assemble) {
+          throw new IllegalStateException("Assemble task is not provided for test variant $testedVariant.name")
         }
         if (!projectOutput.assemble) {
-          throw new IllegalStateException("Assemble task is not provided for tested variant $testVariant.testedVariant.name")
+          throw new IllegalStateException("Assemble task is not provided for tested variant $testedVariant.testVariant.name")
         }
-        dependsOn projectOutput.assemble, testVariant.assemble
+
+        dependsOn projectOutput.assemble, testedVariant.testVariant.assemble
       }
       task.outputs.upToDateWhen { false }
       return task
