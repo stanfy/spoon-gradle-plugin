@@ -3,7 +3,7 @@ package com.stanfy.spoon.gradle
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryPlugin
-import com.android.build.gradle.api.ApkVariantOutput
+import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.api.TestedVariant
 import com.android.build.gradle.internal.variant.ApkVariantOutputData
 import org.gradle.api.Plugin
@@ -120,11 +120,12 @@ class SpoonPlugin implements Plugin<Project> {
         group = JavaBasePlugin.VERIFICATION_GROUP
 
         def instrumentationPackage = testedVariant.testVariant.outputs[0].outputFile
-        if (projectOutput instanceof ApkVariantOutput) {
-          applicationApk = projectOutput.outputFile
-        } else {
+
+        if (testedVariant instanceof BaseVariant) {
+          applicationApk = testedVariant.outputs[0].outputFile
+        }  else {
           // This is a hack for library projects.
-          // We supply the same apk as an application and instrumentation to the soon runner.
+          // We supply the same apk as an application and instrumentation to the spoon runner.
           applicationApk = instrumentationPackage
         }
         instrumentationApk = instrumentationPackage
