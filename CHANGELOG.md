@@ -1,3 +1,10 @@
+Version 1.2.0
+-------------
+*2016-06-08*
+
+- Added 'shard' option to divide test suite across all devices.
+- Spoon runner dependency is changed to 1.5.4.
+
 Version 1.1.0
 -------------
 *2016-04-28*
