@@ -119,6 +119,7 @@ class SpoonPlugin implements Plugin<Project> {
         ignoreFailures = config.ignoreFailures
         devices = config.devices
         allDevices = !config.devices
+        sequential = config.sequential
         noAnimations = config.noAnimations
         failIfNoDeviceConnected = config.failIfNoDeviceConnected
         codeCoverage = config.codeCoverage
