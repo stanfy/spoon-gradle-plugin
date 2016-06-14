@@ -33,6 +33,9 @@ spoon {
 
   // To run a single method in TestCase
   methodName = 'testMyApp'
+
+  // To execute the tests device by device */
+  sequential = true
 }
 ```
 
