@@ -122,6 +122,7 @@ spoon {
   codeCoverage = true
 }
 ```
+This option requires your app to have the `WRITE_EXTERNAL_STORAGE` permission.
 
 Known issues
 ------------
