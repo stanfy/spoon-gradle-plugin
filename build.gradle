@@ -37,7 +37,7 @@ dependencies {
   compile gradleApi()
   compile localGroovy()
 
-  compile 'com.squareup.spoon:spoon-runner:1.5.5'
+  compile 'com.squareup.spoon:spoon-runner:1.6.2'
 
   compile 'com.android.tools.build:gradle:1.5.0'
 

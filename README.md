@@ -36,6 +36,9 @@ spoon {
 
   // To execute the tests device by device */
   sequential = true
+
+  // To grant permissions to Android M >= devices */
+    grantPermisions = true
 }
 ```
 

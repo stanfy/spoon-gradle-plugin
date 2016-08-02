@@ -50,4 +50,7 @@ class SpoonExtension {
 
   /** Execute the tests device by device */
   boolean sequential
+
+  /** Grants all permisions for Android M >= devices */
+  boolean grantAllPermissions
 }
