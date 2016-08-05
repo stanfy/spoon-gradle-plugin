@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:1.5.0"
+  androidTestCompile "com.squareup.spoon:spoon-client:1.6.2"
 }
 
 // for integration test of this plugin
