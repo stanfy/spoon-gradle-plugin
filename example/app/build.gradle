@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'spoon'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.1"
+  compileSdkVersion 24
+  buildToolsVersion "24.0.1"
 
   defaultConfig {
-    minSdkVersion 7
-    targetSdkVersion 23
+    minSdkVersion 8
+    targetSdkVersion 24
 
     versionCode 1
     versionName '1.0'
@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:1.5.0"
+  androidTestCompile "com.squareup.spoon:spoon-client:1.6.2"
 }
 
 // for integration test of this plugin
