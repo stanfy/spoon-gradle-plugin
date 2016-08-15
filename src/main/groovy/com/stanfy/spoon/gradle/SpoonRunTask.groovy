@@ -80,6 +80,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Devices to run on. */
   Set<String> devices
 
+  /** Devices to skip running on. */
+  Set<String> skipDevices
+
   /** The number of separate shards to create. */
   int numShards
 
@@ -163,8 +166,13 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     if (adbTimeout != -1) {
       LOG.info("ADB timeout $adbTimeout")
       runBuilder.setAdbTimeout(adbTimeout)
-    }  
-        
+    }
+
+    if (skipDevices != null && !skipDevices.isEmpty()) {
+      skipDevices.each {
+        runBuilder.skipDevice(it);
+      }
+    }
     if (allDevices) {
       runBuilder.useAllAttachedDevices()
       LOG.info("Using all the attached devices")
@@ -175,7 +183,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
       devices.each {
         runBuilder.addDevice(it)
       }
+
       LOG.info("Using devices $devices")
+      LOG.info("Skipping following devices: $skipDevices")
     }
 
     boolean success = runBuilder.build().run()
