@@ -12,7 +12,7 @@ apply plugin: 'nexus'
 apply plugin: 'project-report'
 
 group = 'com.stanfy.spoon'
-version = '1.2.1-SNAPSHOT'
+version = '1.2.2-SNAPSHOT'
 
 jar {
   manifest {
@@ -37,7 +37,7 @@ dependencies {
   compile gradleApi()
   compile localGroovy()
 
-  compile 'com.squareup.spoon:spoon-runner:1.5.5'
+  compile 'com.squareup.spoon:spoon-runner:1.6.2'
 
   compile 'com.android.tools.build:gradle:1.5.0'
 

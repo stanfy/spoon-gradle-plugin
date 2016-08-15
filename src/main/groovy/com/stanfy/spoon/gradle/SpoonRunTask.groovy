@@ -95,6 +95,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Execute the tests device by device */
   boolean sequential
 
+  /** Grants all permisions for Android M >= devices */
+  boolean grantAllPermissions
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -138,7 +141,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setCodeCoverage(codeCoverage)
         .setShard(shard)
         .setSequential(sequential)
-
+        .setGrantAll(grantAllPermissions)
     def instrumentationArgs = this.instrumentationArgs
     if (instrumentationArgs == null) {
       instrumentationArgs = []

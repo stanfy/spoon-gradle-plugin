@@ -1,3 +1,9 @@
+Version 1.2.1
+-------------
+*2016-08-03*
+
+- Support `grantAllPermissions` option (spoon runner dependency bumped to 1.6.2)
+
 Version 1.2.0
 -------------
 *2016-06-08*

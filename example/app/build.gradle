@@ -63,6 +63,8 @@ spoon {
   adbTimeout = 30
 
   codeCoverage = true
+
+  grantAllPermissions = true
 }
 
 repositories {
