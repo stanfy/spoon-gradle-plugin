@@ -118,6 +118,7 @@ class SpoonPlugin implements Plugin<Project> {
         debug = config.debug
         ignoreFailures = config.ignoreFailures
         devices = config.devices
+        skipDevices = config.skipDevices
         allDevices = !config.devices
         sequential = config.sequential
         noAnimations = config.noAnimations

@@ -25,7 +25,10 @@ class SpoonExtension {
 
   /** Devices to run the tests on (specified with serial numbers). */
   Set<String> devices
-  
+
+  /** Devices to skip running the tests on (specified with serial numbers). */
+  Set<String> skipDevices
+
   /** Whether or not animations are enabled, useful for slow machines or projects with many screenshots. */
   boolean noAnimations
 
