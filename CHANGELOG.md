@@ -1,3 +1,9 @@
+Version 1.2.2
+-------------
+*2016-08-29*
+
+- Support `skipDevices` option (spoon runner dependency bumped to 1.6.4)
+
 Version 1.2.1
 -------------
 *2016-08-03*

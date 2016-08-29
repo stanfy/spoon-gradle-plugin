@@ -54,7 +54,7 @@ Generated reports are available at `build/spoon/${TEST_VARIANT}` folder.
 For making screenshots add `spoon-client` dependency to your tests compile configuration:
 ```groovy
 dependencies {
-  androidTestCompile 'com.squareup.spoon:spoon-client:1.6.2'
+  androidTestCompile 'com.squareup.spoon:spoon-client:1.6.4'
 }
 ```
 
@@ -63,6 +63,7 @@ In order to run them on some concrete devices instead, you may specify their ser
 ```groovy
 spoon {
   devices = ['333236E9AE5800EC']
+  skipDevices = ['serial-you-want-to-skip']
 }
 ```
 
