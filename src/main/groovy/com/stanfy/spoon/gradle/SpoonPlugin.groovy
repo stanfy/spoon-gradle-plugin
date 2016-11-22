@@ -126,6 +126,7 @@ class SpoonPlugin implements Plugin<Project> {
         codeCoverage = config.codeCoverage
         shard = config.shard
         grantAllPermissions = config.grantAllPermissions
+        reRunsCount = config.reRunsCount
         if (config.adbTimeout != -1) {
           // Timeout is defined in seconds in the config.
           adbTimeout = config.adbTimeout * 1000
