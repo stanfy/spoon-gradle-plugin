@@ -56,4 +56,8 @@ class SpoonExtension {
 
   /** Grants all permisions for Android M >= devices */
   boolean grantAllPermissions
+
+  /** Define build variant to be used for testing (ex. testVariant = "x86Screenshot"). Useful when working with apk splits **/
+  String testVariant
+
 }

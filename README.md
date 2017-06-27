@@ -39,6 +39,9 @@ spoon {
 
   // To grant permissions to Android M >= devices */
   grantAllPermissions = true
+
+  // Define build variant to be used for testing. Useful when working with apk splits  */
+  testVariant = "x86Screenshot"
 }
 ```
 
