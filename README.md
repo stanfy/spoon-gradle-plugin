@@ -37,6 +37,15 @@ spoon {
   // To execute the tests device by device */
   sequential = true
 
+  // Disable generation of animation gifs (allows for slightly faster run times) */
+  noAnimations = false
+
+  // Fail run if no devices are connected */
+  failIfNoDeviceConnected = true
+
+  // Ignore run failures */
+  ignoreFailures = false
+
   // To grant permissions to Android M >= devices */
   grantAllPermissions = true
 }
