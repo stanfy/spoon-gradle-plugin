@@ -94,19 +94,12 @@ class SpoonPlugin implements Plugin<Project> {
       throw new UnsupportedOperationException("Spoon plugin for gradle currently does not support abi/density splits for test apks")
     }
     SpoonExtension config = project.spoon
-    return testVariant.testedVariant.outputs.collect { def projectOutput ->
+    return testVariant.outputs.collect { def projectOutput ->
       SpoonRunTask task = project.tasks.create("${TASK_PREFIX}${testVariant.name.capitalize()}${suffix}", SpoonRunTask)
       task.configure {
         group = JavaBasePlugin.VERIFICATION_GROUP
 
         def instrumentationPackage = testVariant.outputs[0].outputFile
-        if (projectOutput instanceof ApkVariantOutput) {
-          applicationApk = projectOutput.outputFile
-        } else {
-          // This is a hack for library projects.
-          // We supply the same apk as an application and instrumentation to the soon runner.
-          applicationApk = instrumentationPackage
-        }
         instrumentationApk = instrumentationPackage
 
         File outputBase = config.baseOutputDir
@@ -151,8 +144,21 @@ class SpoonPlugin implements Plugin<Project> {
           shardIndex = config.shardIndex
         }
 
-        dependsOn projectOutput.assemble, testVariant.assemble
+        dependsOn testVariant.testedVariant.assemble, testVariant.assemble
       }
+
+      task.doFirst {
+        def testedOutput = testVariant.testedVariant.outputs[0]
+
+        if (testedOutput instanceof ApkVariantOutput) {
+          task.applicationApk = testedOutput.outputFile
+        } else {
+          // This is a hack for library projects.
+          // We supply the same apk as an application and instrumentation to the soon runner.
+          task.applicationApk = task.instrumentationApk
+        }
+      }
+
       task.outputs.upToDateWhen { false }
       return task
     } as List<SpoonRunTask>
