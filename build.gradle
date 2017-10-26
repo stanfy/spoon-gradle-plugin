@@ -33,6 +33,7 @@ repositories {
   mavenLocal()
   google()
   jcenter()
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // for spoon snapshot
 }
 
 dependencies {
