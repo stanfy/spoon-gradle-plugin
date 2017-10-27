@@ -8,6 +8,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.time.Duration
 
 /**
  * Task for using SpoonRunner.
@@ -158,7 +159,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     
     if (adbTimeout != -1) {
       LOG.info("ADB timeout $adbTimeout")
-      runBuilder.setAdbTimeout(adbTimeout)
+      runBuilder.setAdbTimeout(Duration.ofSeconds(adbTimeout))
     }
 
     if (skipDevices != null && !skipDevices.isEmpty()) {

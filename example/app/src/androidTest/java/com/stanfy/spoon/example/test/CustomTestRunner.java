@@ -1,11 +1,11 @@
 package com.stanfy.spoon.example.test;
 
 import android.os.Bundle;
-import android.test.InstrumentationTestRunner;
+import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 
 /** Custom runner implementation to check how arguments are passed.  */
-public class CustomTestRunner extends InstrumentationTestRunner {
+public class CustomTestRunner extends AndroidJUnitRunner {
 
   public void onCreate(final Bundle arguments) {
     if (arguments == null) {
