@@ -106,7 +106,7 @@ class SpoonPlugin implements Plugin<Project> {
         if (!outputBase) {
           outputBase = new File(project.buildDir, "spoon")
         }
-        output = new File(outputBase, testVariant.name)
+        output = new File(outputBase, testVariant.testedVariant.name)
 
         debug = config.debug
         ignoreFailures = config.ignoreFailures
