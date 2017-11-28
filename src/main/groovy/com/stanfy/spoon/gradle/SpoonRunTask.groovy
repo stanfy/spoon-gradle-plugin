@@ -52,7 +52,7 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   String methodName
 
   /** Extra arguments to pass to instrumentation. */
-  List<String> instrumentationArgs
+  Map<String, String> instrumentationArgs
 
   /** Whether or not animations are enabled */
   boolean noAnimations
@@ -141,12 +141,12 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
         .setGrantAll(grantAllPermissions)
     def instrumentationArgs = this.instrumentationArgs
     if (instrumentationArgs == null) {
-      instrumentationArgs = []
+      instrumentationArgs = [:]
     }
 
     if (numShards > 0) {
-      instrumentationArgs.add "numShards=${numShards}".toString()
-      instrumentationArgs.add "shardIndex=${shardIndex}".toString()
+      instrumentationArgs.put("numShards", ${numShards})
+      instrumentationArgs.put("shardIndex", ${shardIndex})
     }
     if (instrumentationArgs) {
       runBuilder.setInstrumentationArgs(instrumentationArgs)

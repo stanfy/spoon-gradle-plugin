@@ -42,7 +42,7 @@ dependencies {
 
   compile 'com.squareup.spoon:spoon-runner:2.0.0-SNAPSHOT'
 
-  compile('com.android.tools.build:gradle:3.0.0') {
+  compile('com.android.tools.build:gradle:3.0.1') {
     exclude group: 'org.jetbrains.trove4j'
   }
 
