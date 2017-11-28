@@ -3,10 +3,10 @@ apply plugin: 'spoon'
 
 android {
   compileSdkVersion 24
-  buildToolsVersion "23.0.3"
+  buildToolsVersion '26.0.2'
 
   defaultConfig {
-    minSdkVersion 8
+    minSdkVersion 9
     targetSdkVersion 24
 
     versionCode 1
@@ -23,13 +23,13 @@ android {
       testCoverageEnabled = true
     }
   }
-
+  flavorDimensions "main"
   productFlavors {
     free {
-
+      dimension "main"
     }
     pro {
-
+      dimension "main"
     }
   }
 
@@ -54,7 +54,7 @@ spoon {
   }
 
   // You can pass instrumentation arguments. Tests in this example assert this pair is passed.
-  instrumentationArgs = ["foo=bar"]
+  instrumentationArgs = [foo:"bar"]
 
   // It's also possible to configure tests sharding using convenient properties:
   // numShards = 2
@@ -69,10 +69,15 @@ spoon {
 
 repositories {
   mavenCentral()
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // for spoon snapshot
+  google()
 }
 
 dependencies {
-  androidTestCompile "com.squareup.spoon:spoon-client:1.6.4"
+  androidTestImplementation 'junit:junit:4.12'
+  androidTestImplementation 'com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT'
+  androidTestImplementation 'com.android.support.test:runner:0.5'
+  androidTestImplementation 'com.android.support.test:rules:0.5'
 }
 
 // for integration test of this plugin

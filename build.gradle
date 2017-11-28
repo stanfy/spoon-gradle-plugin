@@ -12,7 +12,7 @@ apply plugin: 'nexus'
 apply plugin: 'project-report'
 
 group = 'com.stanfy.spoon'
-version = '1.2.3-SNAPSHOT'
+version = '2.0.0-SNAPSHOT'
 
 jar {
   manifest {
@@ -31,15 +31,20 @@ targetCompatibility = 1.6
 repositories {
   mavenCentral()
   mavenLocal()
+  google()
+  jcenter()
+  maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // for spoon snapshot
 }
 
 dependencies {
   compile gradleApi()
   compile localGroovy()
 
-  compile 'com.squareup.spoon:spoon-runner:1.7.1'
+  compile 'com.squareup.spoon:spoon-runner:2.0.0-SNAPSHOT'
 
-  compile 'com.android.tools.build:gradle:1.5.0'
+  compile('com.android.tools.build:gradle:3.0.1') {
+    exclude group: 'org.jetbrains.trove4j'
+  }
 
   testCompile('org.spockframework:spock-core:0.7-groovy-2.0') {
     exclude group: 'org.codehaus.groovy'
