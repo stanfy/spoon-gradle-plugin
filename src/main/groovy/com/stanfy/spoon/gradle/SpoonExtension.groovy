@@ -21,7 +21,7 @@ class SpoonExtension {
   String methodName
 
   /** Extra arguments to pass to instrumentation. */
-  List<String> instrumentationArgs
+  Map<String, String> instrumentationArgs
 
   /** Devices to run the tests on (specified with serial numbers). */
   Set<String> devices

@@ -54,7 +54,7 @@ spoon {
   }
 
   // You can pass instrumentation arguments. Tests in this example assert this pair is passed.
-  instrumentationArgs = ["foo=bar"]
+  instrumentationArgs = [foo:"bar"]
 
   // It's also possible to configure tests sharding using convenient properties:
   // numShards = 2
