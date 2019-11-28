@@ -56,4 +56,7 @@ class SpoonExtension {
 
   /** Grants all permisions for Android M >= devices */
   boolean grantAllPermissions
+
+  /** Tests re-run count to re-run tests in case of failure in order to eliminate flakiness */
+  int reRunsCount = 1;
 }

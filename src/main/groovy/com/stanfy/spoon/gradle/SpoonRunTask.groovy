@@ -101,6 +101,9 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
   /** Grants all permisions for Android M >= devices */
   boolean grantAllPermissions
 
+  /** Tests re-run count to re-run tests in case of failure in order to eliminate flakiness */
+  int reRunsCount;
+
   @TaskAction
   void runSpoon() {
     LOG.info("Run instrumentation tests $instrumentationApk for app $applicationApk")
@@ -189,6 +192,12 @@ class SpoonRunTask extends DefaultTask implements VerificationTask {
     }
 
     boolean success = runBuilder.build().run()
+    int runsCount = 1;
+    while(!success && reRunsCount > runsCount) {
+        LOG.info("Tests failed. Trying to re-run now")
+        success = runBuilder.build().run()
+        runsCount++
+    }
 
     if (!success && !ignoreFailures) {
       throw new GradleException("Tests failed! See ${output}/index.html")
